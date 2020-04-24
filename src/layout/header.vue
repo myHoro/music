@@ -7,16 +7,18 @@
       </div>
       <div v-else class="no-login" @click="login"><i class="iconfont iconuser"></i>未登录</div>
     </div>
-    <div class="search-box">
-      <i class="iconfont iconsearch"></i><input class="input" type="text" placeholder="搜索" />
-    </div>
+    <Search />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
+import Search from '@/components/search.vue'
+@Component({
+  components:{
+    Search
+  }
+})
 export default class Header extends Vue {
   isLogin = false;
 
@@ -46,24 +48,5 @@ export default class Header extends Vue {
   .iconuser{
     font-size: 24px;
     margin-right: 10px;
-  }
-  .search-box{
-    display: flex;
-    align-items: center;
-    width: 200px;
-    height: 30px;
-    padding: 0 15px;
-    border-radius: 5px;
-    background: #ddd;
-  }
-  .search-box i{
-    color:#555;
-    font-size: 14px;
-  }
-  .input{
-    flex: 1;
-    width: 0;
-    padding-left: 10px;
-    background: none;
   }
 </style>

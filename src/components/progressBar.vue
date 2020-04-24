@@ -2,13 +2,14 @@
   <div class="progress-box" ref="progress" @click="control">
     <div class="on-box">
       <div class="on" :style="{width: width+'px'}"></div>
-      <div class="ball-box" :class="{show: showBtn}" :style="{transform:'translateX('+width+'px)'}"><p class="ball"></p></div>
+      <div class="ball-box" :class="{show: showbtn}" :style="{transform:'translateX('+width+'px)'}"><p class="ball"></p></div>
+
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ProgressBar extends Vue {
@@ -26,9 +27,10 @@ export default class ProgressBar extends Vue {
     // this.width = e.layerX > this.maxWidth ? this.maxWidth:e.layerX;
     // e.layerX > this.maxWidth ? this.maxWidth:e.layerX; e.layerX 在width接近拉满的时候，点击后面返回的值会从右边开始计算间距
   }
-
-  @Prop() public showBtn = false
-
+  @Prop({
+    type: Boolean,
+    default: false
+  }) showbtn!: boolean
 }
 </script>
 

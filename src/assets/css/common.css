@@ -8,10 +8,10 @@ textarea{ resize: none; }
 body,html{font-size: 14px; overflow: hidden;}
 body{ -webkit-overflow-scrolling:touch;}
 
-.van-nav-bar{
-  height: 40px;
-  line-height: 40px;
+.ihover:hover{
+  background: #e8e8e8;
 }
+
 .flex-box{
   display: flex;
   flex-direction: column;

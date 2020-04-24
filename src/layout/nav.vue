@@ -1,6 +1,6 @@
 <template>
   <ul class="nav-ul">
-    <router-link tag="li" v-for="(e, i) in navs" :key="i" :to="e.path" class="nav-li" active-class="on">
+    <router-link tag="li" v-for="(e, i) in navs" :key="i" :to="e.path" class="nav-li ihover" active-class="on">
       <i :class="'iconfont icon'+e.meta.icon"></i>
       {{e.meta.title}}
     </router-link>
@@ -32,9 +32,6 @@ export default class Main extends Vue {
     height: 50px;
     cursor: pointer;
     padding:0 20px;
-  }
-  .nav-li:hover{
-    background: #e8e8e8;
   }
   .on{
     background: #e2e2e2;

@@ -18,7 +18,7 @@
         <div class="play-sound">
           <i class="iconfont iconsound"></i>
           <div class="sound-box">
-            <ProgressBar :show-btn="true" />
+            <ProgressBar :showbtn="true" />
           </div>
         </div>
       </div>
