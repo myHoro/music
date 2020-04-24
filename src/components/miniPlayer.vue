@@ -5,7 +5,7 @@
       <div class="common-mini mini-L"></div>
       <div class="common-mini mini-C">
         <i class="iconfont iconpre"></i>
-        <i class="iconfont iconstart"></i>
+        <i @click="play" class="iconfont" :class="isPlay?'iconstart':'iconpause'"></i>
         <i class="iconfont iconnext"></i>
       </div>
       <div class="common-mini mini-R">
@@ -35,7 +35,10 @@ import ProgressBar from './progressBar.vue'
   }
 })
 export default class MiniPlayer extends Vue {
-  
+  isPlay = true
+  play(): void{
+    this.isPlay = !this.isPlay
+  }
 }
 </script>
 
@@ -71,7 +74,7 @@ export default class MiniPlayer extends Vue {
     justify-content: center;
     color: #29a1f7;
   }
-  .iconstart{
+  .iconstart, .iconpause{
     font-size: 60px;
     margin: 0 20px;
   }

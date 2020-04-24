@@ -1,12 +1,6 @@
 <template>
   <div>
-    <div class="login-box">
-      <div class="title">登录</div>
-      <div class=""><input class="input" type="text" v-model="userName" placeholder="请输入账号" /></div>
-      <div class=""><input class="input" type="password" v-model="password" placeholder="请输入密码" /></div>
-      <div class="common-btn" @click="logins">登录</div>
-      <i class="iconfont iconuser"></i>
-    </div>
+    最新MV
   </div>
 </template>
 

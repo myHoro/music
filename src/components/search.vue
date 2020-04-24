@@ -43,7 +43,7 @@ export default class Search extends Vue {
     height: 30px;
     padding: 0 15px;
     border-radius: 5px;
-    background: #ddd;
+    background: #e8e8e8;
   }
   .search-box i{
     color:#555;

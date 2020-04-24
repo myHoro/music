@@ -1,14 +1,18 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
 
+import Home from '../views/Home.vue'
+const discovery = () => import(/* webpackChunkName: "discovery" */ '@/views/discovery.vue')
+const recommended = () => import(/* webpackChunkName: "recommended" */ '@/views/recommended.vue')
+const newsong = () => import(/* webpackChunkName: "newsong" */ '@/views/newsong.vue')
+const newmv = () => import(/* webpackChunkName: "discovery" */ '@/views/newmv.vue')
 Vue.use(VueRouter)
 
 export const navRoutes: Array<RouteConfig> = [
   {
     path: '/discovery',
     name: 'discovery',
-    component: () => import(/* webpackChunkName: "discovery" */ '../views/discovery.vue'),
+    component: discovery,
     meta: {
       title: '发现音乐',
       icon: 'discoverymusic'
@@ -17,7 +21,7 @@ export const navRoutes: Array<RouteConfig> = [
   {
     path: '/recommended',
     name: 'recommended',
-    component: () => import(/* webpackChunkName: "discovery" */ '../views/discovery.vue'),
+    component: recommended,
     meta: {
       title: '推荐歌单',
       icon: 'recommended'
@@ -26,7 +30,7 @@ export const navRoutes: Array<RouteConfig> = [
   {
     path: '/newsong',
     name: 'newsong',
-    component: () => import(/* webpackChunkName: "discovery" */ '../views/discovery.vue'),
+    component: newsong,
     meta: {
       title: '最新音乐',
       icon: 'newsong'
@@ -35,7 +39,7 @@ export const navRoutes: Array<RouteConfig> = [
   {
     path: '/newmv',
     name: 'newmv',
-    component: () => import(/* webpackChunkName: "discovery" */ '../views/discovery.vue'),
+    component: newmv,
     meta: {
       title: '最新MV',
       icon: 'mv'
