@@ -33,6 +33,7 @@ export default class Main extends Vue {
   }
   .main-content{
     flex: 1;
+    min-width: 1000px;
     overflow: auto;
   }
   ::-webkit-scrollbar { /* 滚动条-容器 */

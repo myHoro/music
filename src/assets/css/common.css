@@ -1,5 +1,5 @@
 /*******css初始化********/
-*{ padding:0; margin:0; border:0; box-sizing:border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-touch-callout:none;-webkit-user-select:none;}
+*{ padding:0; margin:0; border:0; -webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-touch-callout:none;-webkit-user-select:none;}
 a{ text-decoration:none; color: #000;}
 ul,li,ol{ list-style:none;}
 input,button,textarea{ outline:none;}

@@ -5,10 +5,7 @@
       <div class="msg-item">
         <p>热门搜索</p>
         <ul class="result">
-          <li class="ihover">周深</li>
-          <li class="ihover">五月天</li>
-          <li class="ihover">蒙面唱将猜猜猜·宫廷背包客</li>
-          <li class="ihover">我们的歌</li>
+          <li v-for="(e, i) in list" :key="i" class="ihover">{{e.first}}</li>
         </ul>
       </div>
       <div class="msg-item">
@@ -20,7 +17,7 @@
 </template>
 
 <script lang="ts">
-// import { searchHot } from '@/request/search'
+import { searchHot } from '@/request/api'
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
@@ -32,10 +29,12 @@ export default class Search extends Vue {
   outSearch(): void{
     this.show = false
   }
+
+  list = [];
   created(){
-    // searchHot().then(res => {
-    //   console.log(res)
-    // })
+    searchHot().then((res: any) => {
+      this.list = res.result.hots
+    })
   }
 }
 </script>
@@ -73,7 +72,10 @@ export default class Search extends Vue {
   }
   .msg-item{
     color: #555;
-    padding:20px;
+    padding:0 20px 20px 20px;
+  }
+  .msg-item:first-child{
+    padding-top: 20px;
   }
   .result{
     display: flex;
@@ -84,7 +86,7 @@ export default class Search extends Vue {
     border:1px solid #ccc;
     border-radius: 3px;
     margin-right: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     padding:5px 10px;
     cursor: pointer;
   }

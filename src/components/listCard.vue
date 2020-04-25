@@ -1,10 +1,10 @@
 <template>
-  <div class="box">
-    <div class="top-msg overTwo">{{msg}}</div>
-    <div class="img-box">
-      <img :src="require('@/assets/img/p1.jpg')" />
+  <div class="list-card-box">
+    <div class="list-card-top-msg overTwo">{{msg}}</div>
+    <div class="list-card-img-box">
+      <img :src="imgSrc" />
     </div>
-    <div class="title overHidden">{{title}}</div>
+    <div class="list-card-title overHidden">{{title}}</div>
   </div>
 </template>
 
@@ -21,13 +21,14 @@ export default class ListCard extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .box{
+  .list-card-box{
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     overflow: hidden;
     position: relative;
   }
-  .top-msg{
+  .list-card-top-msg{
+    box-sizing: border-box;
     width: 100%;
     color: #fff;
     line-height: 20px;
@@ -38,14 +39,14 @@ export default class ListCard extends Vue {
     position: absolute;
     z-index: 9;
   }
-  .box:hover .top-msg{
+  .list-card-box:hover .list-card-top-msg{
     transform: translateY(0);
   }
-  .img-box{
+  .list-card-img-box{
     padding-top:100%;
     position: relative;
   }
-  .img-box img{
+  .list-card-img-box img{
     display: block;
     width: 100%;
     height: 100%;
@@ -55,7 +56,7 @@ export default class ListCard extends Vue {
     top:0;
     left: 0;
   }
-  .title{
+  .list-card-title{
     padding-top:5px;
   }
 </style>

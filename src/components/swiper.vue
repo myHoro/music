@@ -1,13 +1,13 @@
 <template>
-  <div @mouseenter="hovers" @mouseleave="hovers">
-    <div class="swpier">
-      <div class="btn pre-btn" @click="pre"><i class="iconfont iconarrow-left"></i></div>
-      <div class="btn next-btn" @click="next"><i class="iconfont iconarrow-right"></i></div>
-      <ul class="img-list" :style="{width:img.length*100+'%',transform:'translateX(-'+on*100/img.length+'%)'}">
+  <div class="swiper" @mouseenter="hovers" @mouseleave="hovers">
+    <div class="swiper-main">
+      <div class="swiper-btn swiper-pre-btn" @click="pre"><i class="iconfont iconarrow-left"></i></div>
+      <div class="swiper-btn swiper-next-btn" @click="next"><i class="iconfont iconarrow-right"></i></div>
+      <ul class="swiper-img-list" :style="{width:img.length*100+'%',transform:'translateX(-'+on*100/img.length+'%)'}">
         <li v-for="(e, i) in img" :key="i" class="swiper-item"><img :src="e" /></li>
       </ul>
     </div>
-    <div class="indicator">
+    <div class="swiper-indicator">
       <span v-for="(e, i) in img.length" :key="i" :class="{on:i==on}" @click="on = i"></span>
     </div>
   </div>
@@ -67,13 +67,18 @@ export default class HelloWorld extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .swpier{
+  .swiper{
     height: 100%;
-    overflow: hidden;
     margin: 0 auto;
+    padding-bottom: 24px;
     position: relative;
   }
-  .btn{
+  .swiper-main{
+    height: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .swiper-btn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,23 +92,23 @@ export default class HelloWorld extends Vue {
     transform: translateY(-50%);
     z-index: 9;
   }
-  .btn:hover{
+  .swiper-btn:hover{
     background: rgba(255, 255, 255, .5);
   }
-  .pre-btn{
+  .swiper-pre-btn{
     left: 20px;
   }
-  .next-btn{
+  .swiper-next-btn{
     right: 20px;
   }
-  .btn i{
+  .swiper-btn i{
     color: #fff;
     font-size: 22px;
   }
-  .pre-btn{
+  .swiper-pre-btn{
     left: 10px;
   }
-  .img-list{
+  .swiper-img-list{
     display: flex;
     flex-wrap: nowrap;
     height: 100%;
@@ -122,18 +127,21 @@ export default class HelloWorld extends Vue {
     height: 100%;
     object-fit: cover;
   }
-  .indicator{
+  .swiper-indicator{
+    width: 100%;
     text-align: center;
-    padding-top: 10px;
+    position: absolute;
+    bottom: 0;
+    z-index: 9;
   }
-  .indicator span{
+  .swiper-indicator span{
     display: inline-block;
     width: 36px;
     height: 4px;
     background: #ccc;
     margin:0 5px;
   }
-  .indicator span.on{
+  .swiper-indicator span.on{
     background: #666;
   }
 </style>
