@@ -38,7 +38,7 @@ export default {
       })
     })
   },
-  get(url: string, param: any){
+  get(url: string, param?: any){
     return new Promise((resolve, reject) => {
       axios.get(url, {params:param}).then((res: any) => {
         if(res.code == 200){

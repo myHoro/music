@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts">
+// import { searchHot } from '@/request/search'
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
@@ -30,6 +31,11 @@ export default class Search extends Vue {
   }
   outSearch(): void{
     this.show = false
+  }
+  created(){
+    // searchHot().then(res => {
+    //   console.log(res)
+    // })
   }
 }
 </script>
@@ -57,13 +63,13 @@ export default class Search extends Vue {
   }
   .search-msg{
     width: 320px;
-    box-shadow: -3px 0 3px #eee;
+    box-shadow: -1px 0 5px rgba(0, 0, 0, .2);
     position: fixed;
     top:60px;
     bottom:70px;
     right: 0;
     background: #fff;
-    z-index: 9;
+    z-index: 999;
   }
   .msg-item{
     color: #555;
