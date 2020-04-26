@@ -1,6 +1,6 @@
 <template>
   <div class="search-box">
-    <i class="iconfont iconsearch"></i><input class="input" type="text" @focus="inSearch" @blur="outSearch" placeholder="搜索" />
+    <i class="iconfont iconsearch"></i><input class="input" type="text" v-model="searchKey" @focus="inSearch" @blur="outSearch" @keyup.enter="searchSumit" placeholder="搜索" />
     <div class="search-msg" v-show="show">
       <div class="msg-item">
         <p>热门搜索</p>
@@ -10,7 +10,10 @@
       </div>
       <div class="msg-item">
         <p>搜索记录</p>
-        <ul></ul>
+        <ul class="result" v-show="searchKeyHistory.length">
+          <li v-for="(e, i) in searchKeyHistory" :key="i" class="ihover">{{e}}</li>
+        </ul>
+        <div class="no-search-key">暂无搜索记录</div>
       </div>
     </div>
   </div>
@@ -29,12 +32,26 @@ export default class Search extends Vue {
   outSearch(): void{
     this.show = false
   }
-
   list = [];
+
+  searchKey = '';
+  searchKeyHistory: string[] = []
+  searchSumit(){
+    const i: number = this.searchKeyHistory.findIndex(e => e==this.searchKey)
+    if(i==-1){
+      this.searchKeyHistory.push(this.searchKey)
+    }else{
+      this.searchKeyHistory.splice(i, 1);
+      this.searchKeyHistory.unshift(this.searchKey)
+    }
+    localStorage.setItem('search_key', this.searchKeyHistory.join(','))
+  }
   created(){
     searchHot().then((res: any) => {
       this.list = res.result.hots
     })
+    if(localStorage.getItem('search_key')) this.searchKeyHistory = localStorage.getItem('search_key')!.split(',')
+    
   }
 }
 </script>
@@ -89,5 +106,11 @@ export default class Search extends Vue {
     margin-bottom: 12px;
     padding:5px 10px;
     cursor: pointer;
+  }
+  .no-search-key{
+    text-align: center;
+    font-size: 20px;
+    color: #555;
+    padding-top: 30px;
   }
 </style>

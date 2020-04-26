@@ -35,7 +35,7 @@ export default class Main extends Vue {
   }
   .on{
     background: #e2e2e2;
-    color: red;
+    color: #29a1f7;
   }
   .nav-li i{
     font-size: 18px;

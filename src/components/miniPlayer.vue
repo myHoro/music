@@ -1,11 +1,11 @@
 <template>
   <div class="mini-play">
-    <div class="progress"><ProgressBar /></div>
+    <div class="progress"><ProgressBar :volume="percent" /></div>
     <div class="mini-main">
       <div class="common-mini mini-L"></div>
       <div class="common-mini mini-C">
         <i class="iconfont iconpre"></i>
-        <i @click="play" class="iconfont" :class="isPlay?'iconstart':'iconpause'"></i>
+        <i @click="play" class="iconfont" :class="isPlay?'iconpause':'iconstart'"></i>
         <i class="iconfont iconnext"></i>
       </div>
       <div class="common-mini mini-R">
@@ -18,15 +18,24 @@
         <div class="play-sound">
           <i class="iconfont iconsound"></i>
           <div class="sound-box">
-            <ProgressBar :showbtn="true" />
+            <ProgressBar :showbtn="true" :volume="volume" @change="getVolume" />
           </div>
         </div>
       </div>
     </div>
+    <audio
+      :src="`https://music.163.com/song/media/outer/url?id=${playingMsuic.id}.mp3`"
+      @canplay="isCanPlay"
+      @timeupdate="updateTime"
+      @end="end"
+      ref="audio">
+    </audio>
   </div>
 </template>
 
 <script lang="ts">
+import store from '../store/index'
+
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ProgressBar from './progressBar.vue'
 @Component({
@@ -35,9 +44,47 @@ import ProgressBar from './progressBar.vue'
   }
 })
 export default class MiniPlayer extends Vue {
+  volume = 0.7
+  getVolume(e: number){
+    console.log(e)
+    this.audio.volume = e
+  }
+
   isPlay = true
   play(): void{
     this.isPlay = !this.isPlay
+    if(this.isPlay == true){
+      this.audio.play()
+    }else{
+      this.audio.pause()
+    }
+  }
+
+  percent = '';
+  updateTime(e: any){ //audio -> timeupdate 事件，播放实时状态
+    const time = e.target.currentTime;
+    this.percent = (time/(this.playingMsuic.time/1000)).toFixed(2);
+  }
+  end(){
+    this.isPlay = false;
+  }
+  isCanPlay(e: any){
+    console.log('ready',e)
+    this.audio.play()
+    this.isPlay = true;
+  }
+
+  get playingMsuic(){ //获取播放音乐数据
+    console.log(this.$store.state.playingMusic)
+    return this.$store.state.playingMusic
+  }
+
+  get audio(): any{ //audio播放器
+    return this.$refs.audio
+  }
+
+  mounted(){
+    this.audio.volume = this.volume
   }
 }
 </script>

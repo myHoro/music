@@ -3,22 +3,26 @@
     <div class="on-box">
       <div class="on" :style="{width: width+'px'}"></div>
       <div class="ball-box" :class="{show: showbtn}" :style="{transform:'translateX('+width+'px)'}"><p class="ball"></p></div>
-
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Ref, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ProgressBar extends Vue {
-  maxWidth = 0;
+  @Prop({ type: Boolean, default: false }) showbtn!: boolean
+
+  @Ref() readonly progress!: HTMLElement
+
+  // maxWidth = 0;
   width = 0;
   control(e: any): void{
-    const box = (this.$refs.progress as HTMLElement).getBoundingClientRect();
-    this.width = Math.max(0, Math.min(e.pageX - box.left, (this.$refs.progress as HTMLElement).clientWidth))
-
+    const box = this.progress.getBoundingClientRect();
+    this.width = Math.max(0, Math.min(e.pageX - box.left, this.progress.clientWidth))
+   
+    this.$emit('change', (this.width / (this.$refs.progress as HTMLElement).clientWidth).toFixed(2))
     // const box = this.$refs.progress.getBoundingClientRect();
     // ts不识别$refs对象，所以getBoundingClientRect()方法会又报错的波浪线，所以使用 as(类型断言) 将其当作Element对象引用
     // Math.max() 防止出现点击右边出现负值，使其最小只能为0
@@ -27,10 +31,15 @@ export default class ProgressBar extends Vue {
     // this.width = e.layerX > this.maxWidth ? this.maxWidth:e.layerX;
     // e.layerX > this.maxWidth ? this.maxWidth:e.layerX; e.layerX 在width接近拉满的时候，点击后面返回的值会从右边开始计算间距
   }
-  @Prop({
-    type: Boolean,
-    default: false
-  }) showbtn!: boolean
+
+  @Prop() volume!: number
+  @Watch('volume') change(e: number){
+    this.width = e*this.progress.clientWidth
+  }
+  
+  mounted(){
+    this.width = this.volume*this.progress.clientWidth
+  }
 }
 </script>
 
@@ -50,7 +59,6 @@ export default class ProgressBar extends Vue {
     position: relative;
   }
   .on{
-    width: 20%;
     height: 3px;
     background: #29a1f7;
   }
