@@ -29,7 +29,7 @@ export default class Main extends Vue {
     height: calc(100vh - 130px);
   }
   .main-menu{
-    width: 300px;
+    width: 250px;
   }
   .main-content{
     flex: 1;

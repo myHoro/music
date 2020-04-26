@@ -5,7 +5,7 @@ ul,li,ol{ list-style:none;}
 input,button,textarea{ outline:none;}
 input,textarea {-webkit-user-select:auto;}
 textarea{ resize: none; }
-body,html{font-size: 14px; overflow: hidden;}
+body,html{font-size: 14px; min-width: 1250px; overflow: hidden;}
 body{ -webkit-overflow-scrolling:touch;}
 
 .ihover:hover{

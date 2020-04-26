@@ -1,6 +1,6 @@
 <template>
   <div class="mini-play">
-    <div class="progress"><ProgressBar :volume="percent" /></div>
+    <div class="progress"><ProgressBar :volume="percent" @change="getPercent" /></div>
     <div class="mini-main">
       <div class="common-mini mini-L"></div>
       <div class="common-mini mini-C">
@@ -16,7 +16,7 @@
           <i class="iconfont iconmusiclist"></i>
         </div>
         <div class="play-sound">
-          <i class="iconfont iconsound"></i>
+          <i @click="noVolume" class="iconfont" :class="volume==0?'iconnosound':'iconsound'"></i>
           <div class="sound-box">
             <ProgressBar :showbtn="true" :volume="volume" @change="getVolume" />
           </div>
@@ -27,7 +27,7 @@
       :src="`https://music.163.com/song/media/outer/url?id=${playingMsuic.id}.mp3`"
       @canplay="isCanPlay"
       @timeupdate="updateTime"
-      @end="end"
+      @ended="end"
       ref="audio">
     </audio>
   </div>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import store from '../store/index'
 
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ProgressBar from './progressBar.vue'
 @Component({
   components:{
@@ -44,10 +44,27 @@ import ProgressBar from './progressBar.vue'
   }
 })
 export default class MiniPlayer extends Vue {
-  volume = 0.7
+  dVolume!: number
+  volume = this.defaultVolume
+  get defaultVolume(){
+    return Number(localStorage.getItem('default_volume')) || .7
+  }
   getVolume(e: number){
-    console.log(e)
     this.audio.volume = e
+    this.saveDefaultVolume(e)
+  }
+  noVolume(){ //静音
+    if(this.volume!=0){
+      this.dVolume = this.volume
+      this.volume = this.audio.volume = 0
+      this.saveDefaultVolume(0)
+    }else{
+      this.volume = this.audio.volume = this.dVolume
+      this.saveDefaultVolume(this.dVolume)
+    }
+  }
+  saveDefaultVolume(e: any){ //记录设置的音量值
+    localStorage.setItem('default_volume', e)
   }
 
   isPlay = true
@@ -60,20 +77,22 @@ export default class MiniPlayer extends Vue {
     }
   }
 
-  percent = '';
-  updateTime(e: any){ //audio -> timeupdate 事件，播放实时状态
-    const time = e.target.currentTime;
-    this.percent = (time/(this.playingMsuic.time/1000)).toFixed(2);
+  percent = 0;
+  isCanPlay(e: any){ // 音频准备完毕。可以播放
+    this.isPlay = true
+    this.audio.play()
   }
-  end(){
+  updateTime(e: any){ //audio -> timeupdate 事件，播放实时进度
+    const time = e.target.currentTime;
+    this.percent = time/(this.playingMsuic.time/1000);
+  }
+  getPercent(e: number){ //调节歌曲进度
+    this.audio.currentTime = this.playingMsuic.time/1000*e
+  }
+  end(){ //播放完毕触发
     this.isPlay = false;
   }
-  isCanPlay(e: any){
-    console.log('ready',e)
-    this.audio.play()
-    this.isPlay = true;
-  }
-
+  
   get playingMsuic(){ //获取播放音乐数据
     console.log(this.$store.state.playingMusic)
     return this.$store.state.playingMusic
@@ -84,7 +103,7 @@ export default class MiniPlayer extends Vue {
   }
 
   mounted(){
-    this.audio.volume = this.volume
+    this.audio.volume = this.volume //页面加载完毕，设置音量为默认音量
   }
 }
 </script>
@@ -140,7 +159,7 @@ export default class MiniPlayer extends Vue {
     display: flex;
     align-items: center;
   }
-  .iconsound{
+  .iconsound, .iconnosound{
     margin-right: 10px;
   }
   .sound-box{
