@@ -4,7 +4,7 @@
     <div class="discovery-title">推荐歌单</div>
     <div class="show-tj">
       <router-link class="show-link" v-for="e in tjSongSheetList" :key="e.id" to="">
-        <ListCard :msg="e.copywriter" :title="e.name" :imgSrc="e.picUrl" />
+        <ListCard :msg="e.copywriter" :title="e.name" :imgSrc="$utils.imgSize(e.picUrl, 450)" />
       </router-link>
     </div>
     
@@ -15,12 +15,27 @@
           <template v-if="i<9">0</template>{{i+1}}
         </div>
         <div class="discovery-newsong-img">
-          <img :src="e.song.album.blurPicUrl" />
-          <i class="iconfont iconbf"></i>
+          <img :src="$utils.imgSize(e.picUrl, 160)" />
+          <i class="iconfont iconbf play-icon"></i>
         </div>
         <div class="discovery-newsong-msg">
           <p>{{e.name}}</p>
           <p>{{e.song.artists[0].name}}</p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="discovery-title">推荐MV</div>
+    <ul class="mv-box">
+      <li v-for="e in tjMv" :key="e.id">
+        <div class="mv-msg">
+          <div class="playCount">{{e.playCount}}</div>
+          <img :src="$utils.imgSize(e.picUrl, 500, 260)" />
+          <i class="iconfont iconbf"></i>
+        </div>
+        <div class="mvname-singer">
+          <p class="mv-name">{{e.name}}</p>
+          <p class="singer-name">{{e.artistName}}</p>
         </div>
       </li>
     </ul>
@@ -32,8 +47,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Swiper from '@/components/swiper.vue'
 import ListCard from '@/components/listCard.vue'
-
-import { banner, tjSongSheet, newMusic } from '@/request/api'
+import { banner, tjSongSheet, newMusic, tjMv } from '@/request/api'
 @Component({
   components:{
     Swiper,
@@ -44,87 +58,45 @@ export default class Discovery extends Vue {
   img = []
   tjSongSheetList = []
   newMusicList = []
-
+  tjMv = []
   playing(e: any){
     console.log(e)
     const data = {
       id:e.id,
-      time: e.song.duration
+      name:e.name,
+      time: e.song.duration,
+      singer: e.song.artists.map((e: any) => e.name).join(','),
+      img:e.picUrl
     }
+    console.log(data)
     this.$store.commit('SET_PLAYINGMUSIC', data)
   }
 
   created(){
     banner().then((res: any) => {
-      console.log(res)
+      // console.log(res)
       this.img = res.banners.map((e: any) => e.imageUrl)
     })
     
     tjSongSheet(10).then((res: any) => {
-      console.log(res)
+      // console.log(res)
       this.tjSongSheetList = res.result
     })
 
     newMusic().then((res: any) => {
-      console.log(res)
+      // console.log(res)
       this.newMusicList = res.result
+    })
+
+    tjMv().then((res: any) => {
+      console.log('MV',res)
+      this.tjMv = res.result
     })
   }
 }
 </script>
-<style scoped>
-  .discovery-box{
-    max-width: 1500px;
-    margin: 0 auto;
-    padding:20px 45px;
-  }
-  .swiper-box{
-    height: 240px;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 30px;
-  }
-  .discovery-title{
-    font-size: 20px;
-    padding-top: 30px;
-    padding-bottom: 15px;
-  }
-  .show-tj{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  .show-link{
-    display: block;
-    width: 19%;
-    margin-bottom: 20px;
-  }
-  .discovery-newsong{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
-  }
-  .discovery-newsong-li{
-    display: flex;
-    padding:10px 20px
-  }
-  .discovery-newsong-no{
-    line-height: 80px;
-    font-size: 16px;
-    padding-right: 15px;
-  }
-  .discovery-newsong-img{
-    width: 80px;
-    height: 80px;
-    position: relative;
-  }
-  .discovery-newsong-img img{
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .discovery-newsong-img i{
+<style lang="scss" scoped>
+  .play-icon{
     width: 32px;
     height: 32px;
     text-align: center;
@@ -137,16 +109,114 @@ export default class Discovery extends Vue {
     top:50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* top:0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto; */
   }
-  .discovery-newsong-msg{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding:12px 0 12px 10px;
+  .discovery-box{
+    max-width: 1500px;
+    margin: 0 auto;
+    padding:20px 45px;
+
+    .swiper-box{
+      height: 240px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .discovery-title{
+      font-size: 20px;
+      padding-top: 30px;
+      padding-bottom: 15px;
+    }
+
+    .show-tj{
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      
+      .show-link{
+        display: block;
+        width: 19%;
+        margin-bottom: 20px;
+      }
+    }
+
+    .discovery-newsong{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+
+      .discovery-newsong-li{
+        display: flex;
+        padding:10px 20px;
+
+        .discovery-newsong-no{
+          line-height: 80px;
+          font-size: 16px;
+          padding-right: 15px;
+        }
+        .discovery-newsong-img{
+          width: 80px;
+          height: 80px;
+          position: relative;
+
+          img{
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .discovery-newsong-msg{
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding:12px 0 12px 10px;
+        }
+      }
+    }
+    .mv-box{
+      display: flex;
+      justify-content: space-between;
+      li{
+        width: 23%;
+        cursor: pointer;
+        &:hover{
+          .play-icon{
+            display: block;
+          }
+        }
+        .mv-msg{
+          position: relative;
+          padding-top: 56%;
+          img{
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            position: absolute;
+            top:0;
+            left: 0;
+          }
+          i{
+            @extend .play-icon;
+            display: none;
+            width: 46px;
+            height: 46px;
+            line-height: 46px;
+            font-size: 28px;
+          }
+        }
+        .mvname-singer{
+          padding-top: 10px;
+          .mv-name{
+            font-size: 18px;
+          }
+          .singer-name{
+            font-size: 16px;
+            color: #777;
+            padding-top: 5px;
+          }
+        }
+      }
+    }
   }
 </style>

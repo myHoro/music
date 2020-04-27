@@ -2,7 +2,19 @@
   <div class="mini-play">
     <div class="progress"><ProgressBar :volume="percent" @change="getPercent" /></div>
     <div class="mini-main">
-      <div class="common-mini mini-L"></div>
+      <div class="common-mini mini-L">
+        <template v-if="playingMsuic.id">
+          <div class="music-img"><img :src="$utils.imgSize(playingMsuic.img, 80)" /></div>
+          <div class="music-singer-box">
+            <div class="music-singer">
+              <p>{{playingMsuic.name}}</p> - <span>{{playingMsuic.singer}}</span>
+            </div>
+            <div class="music-time">
+              {{timeUse}}  / {{$utils.timeInterval(playingMsuic.time)}}
+            </div>
+          </div>
+        </template>
+      </div>
       <div class="common-mini mini-C">
         <i class="iconfont iconpre"></i>
         <i @click="play" class="iconfont" :class="isPlay?'iconpause':'iconstart'"></i>
@@ -34,10 +46,10 @@
 </template>
 
 <script lang="ts">
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import store from '../store/index'
-
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ProgressBar from './progressBar.vue'
+
 @Component({
   components:{
     ProgressBar
@@ -76,8 +88,8 @@ export default class MiniPlayer extends Vue {
       this.audio.pause()
     }
   }
-
   percent = 0;
+  timeUse = '';
   isCanPlay(e: any){ // 音频准备完毕。可以播放
     this.isPlay = true
     this.audio.play()
@@ -94,14 +106,12 @@ export default class MiniPlayer extends Vue {
   }
   
   get playingMsuic(){ //获取播放音乐数据
-    console.log(this.$store.state.playingMusic)
+    console.log('----',this.$store.state.playingMusic)
     return this.$store.state.playingMusic
   }
-
   get audio(): any{ //audio播放器
     return this.$refs.audio
   }
-
   mounted(){
     this.audio.volume = this.volume //页面加载完毕，设置音量为默认音量
   }
@@ -109,60 +119,75 @@ export default class MiniPlayer extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
   .mini-play{
     height: 70px;
-  }
-  .mini-main{
-    display: flex;
-    justify-content: space-between;
-    height: 67px;
-  }
-  .progress{
-    display: flex;
-    align-items: center;
-    height: 3px;
-    position: relative;
-    z-index: 9;
-  }
-  .common-mini{
-    flex: 1;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    width: 0;
-    height: 100%;
-  }
-  .mini-L{
-    padding-left: 20px;
-  }
-  .mini-C{
-    justify-content: center;
-    color: #29a1f7;
-  }
-  .iconstart, .iconpause{
-    font-size: 60px;
-    margin: 0 20px;
-  }
-  .iconpre, .iconnext{
-    font-size: 30px;
-  }
-  .mini-R{
-    justify-content: flex-end;
-    padding-right: 20px;
-  }
-  .mini-R i{
-    font-size: 20px;
-    margin-left: 18px;
-  }
-  .play-sound{
-    display: flex;
-    align-items: center;
-  }
-  .iconsound, .iconnosound{
-    margin-right: 10px;
-  }
-  .sound-box{
-    width: 150px;
+
+    .progress{
+      display: flex;
+      align-items: center;
+      height: 3px;
+      position: relative;
+      z-index: 9;
+    }
+    
+    .mini-main{
+      display: flex;
+      justify-content: space-between;
+      height: 67px;
+      .common-mini{
+        flex: 1;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        width: 0;
+        height: 100%;
+      }
+      
+      .mini-L{
+        padding-left: 20px;
+        .music-img{
+          box-sizing: border-box;
+          height: 100%;
+          padding:5px 10px 5px;
+          overflow: hidden;
+          img{
+            height: 100%;
+            border-radius: 6px;
+          }
+        }
+      }
+      
+      .mini-C{
+        justify-content: center;
+        color: #29a1f7;
+        .iconstart, .iconpause{
+          font-size: 60px;
+          margin: 0 20px;
+        }
+        .iconpre, .iconnext{
+          font-size: 30px;
+        }
+      }
+
+      .mini-R{
+        justify-content: flex-end;
+        padding-right: 20px;
+        i{
+          font-size: 20px;
+          margin-left: 18px;
+        }
+        .play-sound{
+          display: flex;
+          align-items: center;
+        }
+        .iconsound, .iconnosound{
+          margin-right: 10px;
+        }
+        .sound-box{
+          width: 150px;
+        }
+      }
+    }
   }
 </style>
