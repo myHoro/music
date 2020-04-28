@@ -3,6 +3,7 @@
     <div class="list-card-top-msg overTwo">{{msg}}</div>
     <div class="list-card-img-box">
       <img :src="imgSrc" />
+      <i class="iconfont iconbf"></i>
     </div>
     <div class="list-card-title overHidden">{{title}}</div>
   </div>
@@ -20,43 +21,71 @@ export default class ListCard extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
   .list-card-box{
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     overflow: hidden;
     position: relative;
+    &:hover{
+      .list-card-top-msg{
+        transform: translateY(0);
+      }
+      .list-card-img-box{
+        .iconbf{
+          opacity: 1;
+        }
+      }
+    }
+
+    .list-card-top-msg{
+      box-sizing: border-box;
+      width: 100%;
+      color: #fff;
+      line-height: 20px;
+      transform: translateY(-100%);
+      transition: transform .25s ease;
+      padding:6px 10px;
+      background: rgba(0, 0, 0, .5);
+      position: absolute;
+      z-index: 9;
+    }
+
+    .list-card-img-box{
+      padding-top:100%;
+      position: relative;
+
+      img{
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+        position: absolute;
+        top:0;
+        left: 0;
+      }
+      .iconbf{
+        opacity: 0;
+        transition: opacity .25s;
+        width: 36px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        color: #29a1f7;
+        font-size: 26px;
+        background: rgba(255, 255, 255, .5);
+        border-radius: 50%;
+        position: absolute;
+        bottom:10px;
+        right: 12px;
+      }
+      .list-card-title{
+        padding-top:5px;
+      }
+    }
   }
-  .list-card-top-msg{
-    box-sizing: border-box;
-    width: 100%;
-    color: #fff;
-    line-height: 20px;
-    transform: translateY(-100%);
-    transition: transform .25s ease;
-    padding:6px 10px;
-    background: rgba(0, 0, 0, .5);
-    position: absolute;
-    z-index: 9;
-  }
-  .list-card-box:hover .list-card-top-msg{
-    transform: translateY(0);
-  }
-  .list-card-img-box{
-    padding-top:100%;
-    position: relative;
-  }
-  .list-card-img-box img{
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
-    position: absolute;
-    top:0;
-    left: 0;
-  }
-  .list-card-title{
-    padding-top:5px;
-  }
+  
+  
+  
 </style>

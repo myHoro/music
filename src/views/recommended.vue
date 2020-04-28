@@ -9,6 +9,8 @@
       </div>
       <div class="bg" :style="{backgroundImage:'url('+topPlaylist.coverImgUrl+')'}"></div>
     </router-link>
+
+    <Tab :item="tab" @choose="getType" />
   </div>
 </template>
 
@@ -16,11 +18,21 @@
 // @ is an alias to /src
 import { Component, Vue } from 'vue-property-decorator'
 import { topPlaylist } from '@/request/api'
-@Component
+import Tab from '@/components/tab.vue'
+@Component({
+  components: {
+    Tab
+  }
+})
 
 export default class Recommend extends Vue {
   topPlaylist = {}
-
+  tab: string[] = [ "全部", "欧美", "华语", "流行", "说唱", "摇滚", "民谣", "电子", "轻音乐", "影视原声", "ACG", "怀旧", "治愈", "旅行" ]
+  
+  getType(e: string){
+    console.log(e)
+  }
+  
   created(){
     topPlaylist({
       limit: 1,
@@ -66,7 +78,7 @@ export default class Recommend extends Vue {
           color: #29a1f7;
           border:1px solid #29a1f7;
           border-radius: 5px;
-          padding:8px 12px;
+          padding:6px 12px;
         }
         .name{
           color: #fff;
