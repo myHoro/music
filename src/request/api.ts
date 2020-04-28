@@ -9,3 +9,5 @@ export const banner = () => get('banner', {type: 0})
 export const tjSongSheet = (limit: number) => get('personalized', {limit})
 export const newMusic = () => get('personalized/newsong')
 export const tjMv = () => get('/personalized/mv')
+
+export const topPlaylist = (data: {limit: number; before?: number; cat?: string}) => get('top/playlist/highquality', data)

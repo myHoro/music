@@ -29,12 +29,14 @@
     <ul class="mv-box">
       <li v-for="e in tjMv" :key="e.id">
         <div class="mv-msg">
-          <div class="playCount">{{e.playCount}}</div>
+          <div class="playCount">
+            <i class="iconfont iconbf"></i>{{e.playCount}}
+          </div>
           <img :src="$utils.imgSize(e.picUrl, 500, 260)" />
-          <i class="iconfont iconbf"></i>
+          <i class="iconfont iconbf mvplay"></i>
         </div>
         <div class="mvname-singer">
-          <p class="mv-name">{{e.name}}</p>
+          <p class="mv-name overHidden">{{e.name}}</p>
           <p class="singer-name">{{e.artistName}}</p>
         </div>
       </li>
@@ -48,6 +50,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import Swiper from '@/components/swiper.vue'
 import ListCard from '@/components/listCard.vue'
 import { banner, tjSongSheet, newMusic, tjMv } from '@/request/api'
+import store from '../store'
 @Component({
   components:{
     Swiper,
@@ -69,7 +72,7 @@ export default class Discovery extends Vue {
       img:e.picUrl
     }
     console.log(data)
-    this.$store.commit('SET_PLAYINGMUSIC', data)
+    store.commit('SET_PLAYINGMUSIC', data)
   }
 
   created(){
@@ -113,7 +116,7 @@ export default class Discovery extends Vue {
   .discovery-box{
     max-width: 1500px;
     margin: 0 auto;
-    padding:20px 45px;
+    padding:20px 100px;
 
     .swiper-box{
       height: 240px;
@@ -177,6 +180,7 @@ export default class Discovery extends Vue {
     .mv-box{
       display: flex;
       justify-content: space-between;
+      padding-bottom: 15px;
       li{
         width: 23%;
         cursor: pointer;
@@ -188,6 +192,7 @@ export default class Discovery extends Vue {
         .mv-msg{
           position: relative;
           padding-top: 56%;
+
           img{
             width: 100%;
             height: 100%;
@@ -196,7 +201,22 @@ export default class Discovery extends Vue {
             top:0;
             left: 0;
           }
-          i{
+          .playCount{
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 16px;
+            position: absolute;
+            top:6px;
+            right: 10px;
+            z-index: 3;
+
+            i{
+              font-size: 18px;
+              margin-right: 5px;
+            }
+          }
+          .mvplay{
             @extend .play-icon;
             display: none;
             width: 46px;
@@ -204,6 +224,7 @@ export default class Discovery extends Vue {
             line-height: 46px;
             font-size: 28px;
           }
+          
         }
         .mvname-singer{
           padding-top: 10px;
@@ -211,7 +232,7 @@ export default class Discovery extends Vue {
             font-size: 18px;
           }
           .singer-name{
-            font-size: 16px;
+            font-size: 14px;
             color: #777;
             padding-top: 5px;
           }
