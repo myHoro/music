@@ -10,4 +10,6 @@ export const tjSongSheet = (limit: number) => get('personalized', {limit})
 export const newMusic = () => get('personalized/newsong')
 export const tjMv = () => get('/personalized/mv')
 
+export const playlistTag = () => get('playlist/catlist')
 export const topPlaylist = (data: {limit: number; before?: number; cat?: string}) => get('top/playlist/highquality', data)
+export const playlist = (data: {offset: number; limit: number; cat: string; order?: string}) => get('top/playlist', data)

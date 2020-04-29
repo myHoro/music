@@ -43,6 +43,8 @@ export default class ListCard extends Vue {
       width: 100%;
       color: #fff;
       line-height: 20px;
+      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
       transform: translateY(-100%);
       transition: transform .25s ease;
       padding:6px 10px;
@@ -57,9 +59,11 @@ export default class ListCard extends Vue {
 
       img{
         display: block;
+        box-sizing: border-box;
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border:1px solid #eee;
         border-radius: 5px;
         position: absolute;
         top:0;
@@ -80,12 +84,9 @@ export default class ListCard extends Vue {
         bottom:10px;
         right: 12px;
       }
-      .list-card-title{
-        padding-top:5px;
-      }
+    }
+    .list-card-title{
+      padding-top:5px;
     }
   }
-  
-  
-  
 </style>

@@ -20,3 +20,11 @@ export const timeInterval = (e: number): string => {
   }
   return timeStr;
 }
+
+export const pageOffset = (page: number, limit: number): number => {
+  return (page - 1) * limit
+}
+
+export const pageTotal = (limit: number, total: number): number => {
+  return Math.ceil(total/limit)
+}

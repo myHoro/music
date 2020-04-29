@@ -9,19 +9,25 @@
       </div>
       <div class="bg" :style="{backgroundImage:'url('+topPlaylist.coverImgUrl+')'}"></div>
     </router-link>
-
     <Tab :item="tab" @choose="getType" />
+    <div class="playlist">
+      <router-link tag="div" v-for="(e, i) in list" :key="i" to="" class="playlist-link">
+        <ListCard :msg="'播放量：'+e.playCount" :title="e.name" :imgSrc="$utils.imgSize(e.coverImgUrl, 500)" />
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 // @ is an alias to /src
 import { Component, Vue } from 'vue-property-decorator'
-import { topPlaylist } from '@/request/api'
+import { topPlaylist, playlist } from '@/request/api'
 import Tab from '@/components/tab.vue'
+import ListCard from '@/components/listCard.vue'
 @Component({
   components: {
-    Tab
+    Tab,
+    ListCard
   }
 })
 
@@ -29,10 +35,27 @@ export default class Recommend extends Vue {
   topPlaylist = {}
   tab: string[] = [ "全部", "欧美", "华语", "流行", "说唱", "摇滚", "民谣", "电子", "轻音乐", "影视原声", "ACG", "怀旧", "治愈", "旅行" ]
   
+  cat = '全部'
+  pageIndex = 1;
+  limit = 25;
+  total = 0;
+  list = [];
   getType(e: string){
     console.log(e)
   }
-  
+  getPlaylist(){
+    playlist({
+      limit: this.limit,
+      offset: this.$utils.pageOffset(this.pageIndex, this.limit),
+      cat: this.cat
+    }).then((res: any) => {
+      if(this.pageIndex == 1){
+        this.total = this.$utils.pageTotal(this.limit, res.total)
+      }
+      this.list = res.playlists
+    })
+  }
+
   created(){
     topPlaylist({
       limit: 1,
@@ -40,7 +63,8 @@ export default class Recommend extends Vue {
     }).then((res: any) => {
       console.log(res.playlists[0])
       this.topPlaylist = res.playlists[0]
-    })
+    });
+    this.getPlaylist()
   }
 }
 </script>
@@ -99,6 +123,15 @@ export default class Recommend extends Vue {
         left: 0;
         z-index: 0;
       }
+    }
+
+    .playlist{
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 25px 15px;
+    }
+    .playlist-link{
+      width:auto
     }
   }
   
