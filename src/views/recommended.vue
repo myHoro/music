@@ -11,10 +11,11 @@
     </router-link>
     <Tab :item="tab" @choose="getType" />
     <div class="playlist">
-      <router-link tag="div" v-for="(e, i) in list" :key="i" to="" class="playlist-link">
-        <ListCard :msg="'播放量：'+e.playCount" :title="e.name" :imgSrc="$utils.imgSize(e.coverImgUrl, 500)" />
+      <router-link v-for="(e, i) in list" :key="i" to="" class="playlist-link">
+        <ListCard :msg="'播放量：'+$utils.formatNumber(e.playCount)" :title="e.name" :imgSrc="$utils.imgSize(e.coverImgUrl, 500)" />
       </router-link>
     </div>
+    <Pagination :total="total" @change="getCurrentPage" />
   </div>
 </template>
 
@@ -24,10 +25,12 @@ import { Component, Vue } from 'vue-property-decorator'
 import { topPlaylist, playlist } from '@/request/api'
 import Tab from '@/components/tab.vue'
 import ListCard from '@/components/listCard.vue'
+import Pagination from '@/components/Pagination.vue'
 @Component({
   components: {
     Tab,
-    ListCard
+    ListCard,
+    Pagination
   }
 })
 
@@ -41,9 +44,17 @@ export default class Recommend extends Vue {
   total = 0;
   list = [];
   getType(e: string){
+    this.pageIndex = 1
+    this.cat = e
+    this.getPlaylist();
+  }
+  getCurrentPage(e: number){
     console.log(e)
+    this.pageIndex = e;
+    this.getPlaylist()
   }
   getPlaylist(){
+    this.list = []
     playlist({
       limit: this.limit,
       offset: this.$utils.pageOffset(this.pageIndex, this.limit),
@@ -61,7 +72,7 @@ export default class Recommend extends Vue {
       limit: 1,
       cat: '全部'
     }).then((res: any) => {
-      console.log(res.playlists[0])
+      // console.log(res.playlists[0])
       this.topPlaylist = res.playlists[0]
     });
     this.getPlaylist()
@@ -70,7 +81,9 @@ export default class Recommend extends Vue {
 </script>
 <style lang="scss" scoped>
   .recommend{
-    padding: 30px 100px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 30px 100px 60px 100px;
 
     .topPlaylist{
       display: flex;
@@ -126,12 +139,15 @@ export default class Recommend extends Vue {
     }
 
     .playlist{
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-gap: 25px 15px;
-    }
-    .playlist-link{
-      width:auto
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-bottom: 15px;
+
+      .playlist-link{
+        width: 19%;
+        margin-bottom: 25px;
+      }
     }
   }
   

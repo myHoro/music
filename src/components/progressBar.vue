@@ -33,7 +33,7 @@ export default class ProgressBar extends Vue {
   }
 
   @Prop() volume!: number
-  @Watch('volume') change(e: number){
+  @Watch('volume') changeVolume(e: number){
     this.width = e*this.progress.clientWidth
   }
   

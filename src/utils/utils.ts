@@ -28,3 +28,8 @@ export const pageOffset = (page: number, limit: number): number => {
 export const pageTotal = (limit: number, total: number): number => {
   return Math.ceil(total/limit)
 }
+
+export const formatNumber = (num: number): number | string => {
+  num = Number(num) || 0;
+  return num>100000 ? Math.round(num/10000)+'万':num
+}

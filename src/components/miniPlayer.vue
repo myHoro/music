@@ -63,7 +63,7 @@ export default class MiniPlayer extends Vue {
     return Number(localStorage.getItem('default_volume')) || .7
   }
   getVolume(e: number){
-    this.audio.volume = e
+    this.audio.volume = this.volume = e
     this.saveDefaultVolume(e)
   }
   noVolume(){ //静音
