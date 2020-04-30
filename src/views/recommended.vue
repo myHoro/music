@@ -9,7 +9,7 @@
       </div>
       <div class="bg" :style="{backgroundImage:'url('+topPlaylist.coverImgUrl+')'}"></div>
     </router-link>
-    <Tab :item="tab" @choose="getType" />
+    <Tab :item="tab" @value="getType" />
     <div class="playlist">
       <router-link v-for="(e, i) in list" :key="i" to="" class="playlist-link">
         <ListCard :msg="'播放量：'+$utils.formatNumber(e.playCount)" :title="e.name" :imgSrc="$utils.imgSize(e.coverImgUrl, 500)" />
@@ -36,7 +36,22 @@ import Pagination from '@/components/Pagination.vue'
 
 export default class Recommend extends Vue {
   topPlaylist = {}
-  tab: string[] = [ "全部", "欧美", "华语", "流行", "说唱", "摇滚", "民谣", "电子", "轻音乐", "影视原声", "ACG", "怀旧", "治愈", "旅行" ]
+  tab = [
+    { name: '全部', value: '全部' },
+    { name: '华语', value: '华语' },
+    { name: '欧美', value: '欧美' },
+    { name: '流行', value: '流行' },
+    { name: '说唱', value: '说唱' },
+    { name: '摇滚', value: '摇滚' },
+    { name: '民谣', value: '民谣' },
+    { name: '电子', value: '电子' },
+    { name: '轻音乐', value: '轻音乐' },
+    { name: '影视原声', value: '影视原声' },
+    { name: 'ACG', value: 'ACG' },
+    { name: '怀旧', value: '怀旧' },
+    { name: '治愈', value: '治愈' },
+    { name: '旅行', value: '旅行' }
+  ]
   
   cat = '全部'
   pageIndex = 1;
@@ -54,12 +69,12 @@ export default class Recommend extends Vue {
     this.getPlaylist()
   }
   getPlaylist(){
-    this.list = []
     playlist({
       limit: this.limit,
       offset: this.$utils.pageOffset(this.pageIndex, this.limit),
       cat: this.cat
     }).then((res: any) => {
+      this.list = []
       if(this.pageIndex == 1){
         this.total = this.$utils.pageTotal(this.limit, res.total)
       }

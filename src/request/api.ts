@@ -13,3 +13,5 @@ export const tjMv = () => get('/personalized/mv')
 export const playlistTag = () => get('playlist/catlist')
 export const topPlaylist = (data: {limit: number; before?: number; cat?: string}) => get('top/playlist/highquality', data)
 export const playlist = (data: {offset: number; limit: number; cat: string; order?: string}) => get('top/playlist', data)
+
+export const newsong = (type: number|string) => get('top/song', {type})

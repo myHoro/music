@@ -1,64 +1,69 @@
 <template>
-  <div>
-    最新音乐
+  <div class="new-song">
+    <Tab :item="tab" @value="getType" />
+    <table>
+      <tr v-for="(e, i) in list" :key="e.id" class="ihover" @click="playing">
+        <td>{{i+1}}</td>
+        <td><img :src="$utils.imgSize(e.album.blurPicUrl, 100)" /></td>
+        <td>{{e.name}}</td>
+        <td>{{e.album.name}}</td>
+      </tr>
+    </table>
+    <!-- <ul class="list">
+      <li v-for="e in list" :key="e.id">
+        <div class="no"></div>
+        <div class="img"></div>
+        <div class="name"></div>
+        <div class="singer"></div>
+        <div class="from"></div>
+        <div class="time"></div>
+      </li>
+    </ul> -->
   </div>
 </template>
 
 <script lang="ts">
 // @ is an alias to /src
 import { Component, Vue } from 'vue-property-decorator'
-// import Toast from '@/components/Toast/toast.vue'
-import {goLogin} from '@/request/api'
-@Component
-// @Component({
-//   components:{Toast}
-// })
-export default class Login extends Vue {
-  userName = ''
-  password = ''
-  show = false
+import { newsong } from '@/request/api'
+import Tab from '@/components/tab.vue'
+@Component({
+  components:{
+    Tab
+  }
+})
+export default class NewSong extends Vue {
+  tab = [
+    { name:'全部', value:'0' },
+    { name:'华语', value:'7' },
+    { name:'欧美', value:'96' },
+    { name:'日本', value:'8' },
+    { name:'韩国', value:'16' }
+  ]
+  type = '0'
+  getType(e: string){
+    this.type = e
+  }
 
-  logins(): void{
-    if(this.userName.length<6){
-      alert('账号输入有误')
-      return
-    }
-    if(this.password.length<6){
-      alert('密码输入有误')
-      return
-    }
-    goLogin({phone: this.userName, password: this.password}).then(res => {
-      console.log(res);
+  list = []
+  getNewSong(){
+    newsong(this.type).then((res: any) => {
+      console.log(res)
+      this.list = res.data
     })
-    // this.$router.replace('/')
+  }
+
+  playing(){
+    console.log('start')
+  }
+  created(){
+    this.getNewSong()
   }
 }
 </script>
-<style scoped>
-  .login-box{
-    width: 360px;
-    box-shadow: 3px 3px 3px #eee;
-    border-radius: 8px;
-    margin:0 auto;
-    margin-top: 100px;
-    padding:20px;
-    background: #fff;
-  }
-  .title{
-    font-size: 18px;
-    padding-bottom: 15px;
-  }
-  .input{
-    width: 100%;
-    border:1px solid #eee;
-    border-radius: 5px;
-    padding:10px;
-    margin-bottom: 15px;
-  }
-  .input:focus{
-    box-shadow: 0 0 5px #eee;
-  }
-  .common-btn{
-    margin-top: 10px;
+<style lang="scss" scoped>
+  .new-song{
+    max-width: 1500px;
+    padding: 10px 100px 50px 100px;
   }
 </style>

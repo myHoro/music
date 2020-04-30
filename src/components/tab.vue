@@ -1,17 +1,21 @@
 <template>
   <div>
     <ul class="tab-ul">
-      <li v-for="(e, i) in item" :key="i" @click="choose(i)" :class="{on: on==i}">{{e}}</li>
+      <li v-for="(e, i) in item" :key="i" @click="choose(i)" :class="{on: on==i}">{{e.name}}</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
-
+interface Items {
+  name: string;
+  value: string;
+}
 @Component
 export default class Tab extends Vue {
-  @Prop() item!: string[]
+  
+  @Prop() item!: Items[]
   on = 0
 
   // @Emit方法，即以前的this.$emit('func',value)
@@ -22,10 +26,13 @@ export default class Tab extends Vue {
   // }
 
   // 若没定义type【@Emit()】  则触发方法事件（choose）即为触发emit（func）的事件
-  @Emit() choose(i: number): string{
+  choose(i: number){
+    if(this.on == i) return;
     this.on = i;
-    return this.item[i];
+    this.$emit('name', this.item[i].name)
+    this.$emit('value', this.item[i].value)
   }
+
 }
 </script>
 

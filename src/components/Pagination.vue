@@ -14,8 +14,8 @@
             <li :class="{on: current==e}" v-for="e in 6" :key="e" @click="changePage(e)">{{e}}</li>
           </template>
           <li v-show="current>=5" class="prev-li" @click="bigChange(-5)">
-            <span>···</span>
-            <p><i class="iconfont iconpageprev"></i></p>
+            <i class="iconfont icondot"></i>
+            <i class="iconfont iconpageprev"></i>
           </li>
           <template v-if="current>=5&&current<=max-3">
             <li @click="changePage(current-2)">{{current-2}}</li>
@@ -25,8 +25,8 @@
             <li @click="changePage(current+2)">{{current+2}}</li>
           </template>
           <li v-show="current<=max-3" class="next-li" @click="bigChange(5)">
-            <span>···</span>
-            <p><i class="iconfont iconpagenext"></i></p>
+            <i class="iconfont icondot"></i>
+            <i class="iconfont iconpagenext"></i>
           </li>
           <template v-if="current>max-3">
             <li :class="{on: current==max-4}" @click="changePage(max-4)">{{max-4}}</li>
@@ -106,10 +106,11 @@ export default class Pagination extends Vue {
       font-size: 14px;
       font-weight: bold;
       li{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 24px;
         height: 24px;
-        text-align: center;
-        line-height: 24px;
         margin:0 12px;
         cursor: pointer;
       }
@@ -118,21 +119,19 @@ export default class Pagination extends Vue {
         cursor:initial;
       }
       .prev-li, .next-li{
-        font-size:24px;
-        letter-spacing: 1px;
-        font-weight: normal;
-        p{
-          display: none;
+        i{
+          font-size: 14px;
         }
         &:hover{
-          span{
+          .icondot{
             display: none;
           }
-          p{
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          .iconpageprev, .iconpagenext{
+            display: block;
           }
+        }
+        .iconpageprev, .iconpagenext{
+          display: none;
         }
       }
     }
