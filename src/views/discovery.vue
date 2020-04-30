@@ -20,7 +20,7 @@
         </div>
         <div class="discovery-newsong-msg">
           <p>{{e.name}}</p>
-          <p>{{e.song.artists[0].name}}</p>
+          <p>{{e.song.artists.map(e => e.name).join('/')}}</p>
         </div>
       </li>
     </ul>

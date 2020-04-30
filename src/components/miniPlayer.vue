@@ -3,14 +3,14 @@
     <div class="progress"><ProgressBar :volume="percent" @change="getPercent" /></div>
     <div class="mini-main">
       <div class="common-mini mini-L">
-        <template v-if="playingMsuic.id">
-          <div class="music-img"><img :src="$utils.imgSize(playingMsuic.img, 80)" /></div>
+        <template v-if="playingMusic.id">
+          <div class="music-img"><img :src="$utils.imgSize(playingMusic.img, 80)" /></div>
           <div class="music-singer-box">
             <div class="music-singer">
-              <p>{{playingMsuic.name}}</p> - <span>{{playingMsuic.singer}}</span>
+              <p>{{playingMusic.name}}</p> - <span>{{playingMusic.singer}}</span>
             </div>
             <div class="music-time">
-              {{timeUse||'00:00'}}/{{$utils.timeInterval(playingMsuic.time)}}
+              {{timeUse||'00:00'}}/{{$utils.timeInterval(playingMusic.time)}}
             </div>
           </div>
         </template>
@@ -24,7 +24,7 @@
         <div class="play-type">
           <i class="iconfont iconplaysx"></i>
         </div>
-        <div class="play-music-list">
+        <div class="play-music-list" @click="showPlaylist">
           <i class="iconfont iconmusiclist"></i>
         </div>
         <div class="play-sound">
@@ -36,10 +36,11 @@
       </div>
     </div>
     <audio
-      :src="playingMsuic.id?`https://music.163.com/song/media/outer/url?id=${playingMsuic.id}.mp3`:''"
+      :src="playingMusic.id?`https://music.163.com/song/media/outer/url?id=${playingMusic.id}.mp3`:''"
       @canplay="isCanPlay"
       @timeupdate="updateTime"
       @ended="end"
+      @error="playError"
       ref="audio">
     </audio>
   </div>
@@ -48,6 +49,7 @@
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
 import ProgressBar from './progressBar.vue'
+import store from '../store';
 
 @Component({
   components:{
@@ -94,22 +96,40 @@ export default class MiniPlayer extends Vue {
   isCanPlay(){ // 音频准备完毕。可以播放
     this.isPlay = true
     this.audio.play()
+    store.commit('SET_ISPLAYING', true)
   }
   updateTime(e: any){ //audio -> timeupdate 事件，播放实时进度
     const time = e.target.currentTime;
     this.timeUse = this.$utils.timeInterval(e.target.currentTime*1000)
-    this.percent = time/(this.playingMsuic.time/1000);
+    this.percent = time/(this.playingMusic.time/1000);
   }
   getPercent(e: number){ //调节歌曲进度
-    this.audio.currentTime = this.playingMsuic.time/1000*e
+    this.audio.currentTime = this.playingMusic.time/1000*e
   }
   end(){ //播放完毕触发
     this.isPlay = false;
+    store.commit('SET_ISPLAYING', false)
   }
-  
-  get playingMsuic(): any{ //获取播放音乐数据
-    return this.$store.state.playingMusic
+  playError(){
+    if(this.playingMusic.id){
+      alert('播放失败')
+      store.commit('SET_ISPLAYING', false)
+    }
+    
   }
+  get playingMusic(): any{ //获取播放音乐数据
+    return store.state.playingMusic
+  }
+
+  get playlistShow(){
+    return store.state.playlistShow
+  }
+  showPlaylist(){
+    console.log('?')
+    store.commit('SET_PLAYLISTSHOW', !this.playlistShow)
+  }
+
+
   mounted(){
     this.audio.volume = this.volume //页面加载完毕，设置音量为默认音量
   }

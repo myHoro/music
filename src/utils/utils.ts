@@ -33,3 +33,17 @@ export const formatNumber = (num: number): number | string => {
   num = Number(num) || 0;
   return num>100000 ? Math.round(num/10000)+'万':num
 }
+
+export const createSongMsg = (e: any): any => {
+  const {id, name, album: {picUrl: picture, name: from}, artists, duration, mvid} = e;
+  const song = {
+    id,
+    name,
+    picture,
+    article: artists.map((item: any) => item.name).join('/'), //这是对象数组，还要处理
+    from,
+    duration, //ms
+    mvid,
+  }
+  return song
+}

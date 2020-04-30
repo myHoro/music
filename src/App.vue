@@ -3,18 +3,21 @@
     <LayoutHeader />
     <LayoutMain />
     <MiniPlayer />
+    <RightPlaylist />
   </div>
 </template>
 <script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import LayoutHeader from '@/layout/header.vue'
 import LayoutMain from '@/layout/main.vue'
 import MiniPlayer from '@/components/miniPlayer.vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import RightPlaylist from '@/components/rightPlaylist.vue'
 @Component({
   components:{
     LayoutHeader,
     LayoutMain,
-    MiniPlayer
+    MiniPlayer,
+    RightPlaylist
   }
 })
 export default class App extends Vue {
