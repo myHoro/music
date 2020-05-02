@@ -5,6 +5,7 @@ ul,li,ol{ list-style:none;}
 input,button,textarea{ outline:none; background: none;}
 input,textarea {-webkit-user-select:auto;}
 textarea{ resize: none; }
+table{ border-collapse: 0; }
 body,html{font-size: 14px; min-width: 1250px; overflow: hidden;}
 body{ -webkit-overflow-scrolling:touch; font-family:sans-serif;}
 

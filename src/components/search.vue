@@ -57,7 +57,7 @@ export default class Search extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
   .search-box{
     display: flex;
     align-items: center;
@@ -66,19 +66,21 @@ export default class Search extends Vue {
     padding: 0 15px;
     border-radius: 5px;
     background: #e8e8e8;
+
+    i{
+      color:#555;
+      font-size: 14px;
+    }
+    .input{
+      flex: 1;
+      width: 0;
+      padding-left: 10px;
+      background: none;
+    }
   }
-  .search-box i{
-    color:#555;
-    font-size: 14px;
-  }
-  .input{
-    flex: 1;
-    width: 0;
-    padding-left: 10px;
-    background: none;
-  }
+  
   .search-msg{
-    width: 320px;
+    width: 360px;
     box-shadow: -1px 0 5px rgba(0, 0, 0, .2);
     position: fixed;
     top:60px;
@@ -90,27 +92,29 @@ export default class Search extends Vue {
   .msg-item{
     color: #555;
     padding:0 20px 20px 20px;
+    &:first-child{
+      padding-top: 20px;
+    }
+    .result{
+      display: flex;
+      flex-wrap: wrap;
+      padding-top: 20px;
+
+      li{
+        border:1px solid #ccc;
+        border-radius: 3px;
+        margin-right: 10px;
+        margin-bottom: 12px;
+        padding:5px 10px;
+        cursor: pointer;
+      }
+    }
+    .no-search-key{
+      text-align: center;
+      font-size: 20px;
+      color: #555;
+      padding-top: 30px;
+    }
   }
-  .msg-item:first-child{
-    padding-top: 20px;
-  }
-  .result{
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 20px;
-  }
-  .result li{
-    border:1px solid #ccc;
-    border-radius: 3px;
-    margin-right: 10px;
-    margin-bottom: 12px;
-    padding:5px 10px;
-    cursor: pointer;
-  }
-  .no-search-key{
-    text-align: center;
-    font-size: 20px;
-    color: #555;
-    padding-top: 30px;
-  }
+  
 </style>

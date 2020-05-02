@@ -9,16 +9,21 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Ref, Vue } from 'vue-property-decorator';
+import store from '../store';
 
 @Component
 export default class ProgressBar extends Vue {
+  @Prop({type: Boolean, default: true}) isVolume!: boolean
+  get haveMusic(): any{
+    return store.state.playingMusic
+  }
   @Prop({ type: Boolean, default: false }) showbtn!: boolean
-
   @Ref() readonly progress!: HTMLElement
 
   // maxWidth = 0;
   width = 0;
   control(e: any): void{
+    if(!this.isVolume&&!this.haveMusic.id) return;
     const box = this.progress.getBoundingClientRect();
     this.width = Math.max(0, Math.min(e.pageX - box.left, this.progress.clientWidth))
    

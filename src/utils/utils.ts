@@ -1,3 +1,5 @@
+import store from '@/store';
+
 export const imgSize = (url: string, w: number, h?: number): string => {
   h = h || w;
   url += `?param=${w}y${h}`
@@ -40,10 +42,20 @@ export const createSongMsg = (e: any): any => {
     id,
     name,
     picture,
-    article: artists.map((item: any) => item.name).join('/'), //这是对象数组，还要处理
+    article: artists.map((item: any) => item.name).join('/'),
     from,
     duration, //ms
     mvid,
   }
   return song
+}
+
+export const startMusic = (song: any) => {
+  store.commit('SET_PLAYINGMUSIC', song)
+  store.commit('SET_ISPLAYING', true)
+  const playHistory: any[] = store.state.playlistHistory
+  const historyIndex = playHistory.findIndex((item: any) => item.id == song.id)
+  if(historyIndex != -1) playHistory.splice(historyIndex, 1);
+  playHistory.unshift(song)
+  store.commit('SET_PLAYLISTHISTORY', playHistory)
 }

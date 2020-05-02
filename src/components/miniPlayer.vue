@@ -1,6 +1,6 @@
 <template>
   <div class="mini-play">
-    <div class="progress"><ProgressBar :volume="percent" @change="getPercent" /></div>
+    <div class="progress"><ProgressBar :volume="percent" :is-volume="false" @change="getPercent" /></div>
     <div class="mini-main">
       <div class="common-mini mini-L">
         <template v-if="playingMusic.id">
@@ -84,6 +84,7 @@ export default class MiniPlayer extends Vue {
 
   isPlay = true
   play(): void{
+    if(!this.playingMusic.id) return;
     this.isPlay = !this.isPlay
     if(this.isPlay == true){
       this.audio.play()
@@ -125,7 +126,6 @@ export default class MiniPlayer extends Vue {
     return store.state.playlistShow
   }
   showPlaylist(){
-    console.log('?')
     store.commit('SET_PLAYLISTSHOW', !this.playlistShow)
   }
 

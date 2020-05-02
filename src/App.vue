@@ -3,7 +3,12 @@
     <LayoutHeader />
     <LayoutMain />
     <MiniPlayer />
-    <RightPlaylist />
+    <RightPlaylist>
+      <div>
+        ninds
+        <p>sss</p>
+      </div>
+    </RightPlaylist>
   </div>
 </template>
 <script lang="ts">

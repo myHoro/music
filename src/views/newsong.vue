@@ -68,7 +68,7 @@ export default class NewSong extends Vue {
   }
 
   on = -1;
-  playing(i: number){
+  playing( i: number){
     this.on = i
     const e: any = this.list[i]
     const data = {
@@ -78,7 +78,7 @@ export default class NewSong extends Vue {
       singer: e.article,
       img:e.picture
     }
-    store.commit('SET_PLAYINGMUSIC', data)
+    this.$utils.startMusic(data)
   }
   get isPlaying(){
     return store.state.isPlaying
