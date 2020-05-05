@@ -63,16 +63,15 @@ export default class Discovery extends Vue {
   newMusicList = []
   tjMv = []
   playing(e: any){
-    console.log(e)
     const data = {
       id:e.id,
       name:e.name,
-      time: e.song.duration,
-      singer: e.song.artists.map((e: any) => e.name).join(','),
-      img:e.picUrl
+      duration: e.song.duration,
+      artists: e.song.artists.map((e: any) => e.name).join(','),
+      picture:e.picUrl,
+      mvid: e.song.mvid
     }
-    console.log(data)
-    store.commit('SET_PLAYINGMUSIC', data)
+    this.$utils.startMusic(data)
   }
 
   created(){
@@ -92,7 +91,7 @@ export default class Discovery extends Vue {
     })
 
     tjMv().then((res: any) => {
-      console.log('MV',res)
+      // console.log('MV',res)
       this.tjMv = res.result
     })
   }

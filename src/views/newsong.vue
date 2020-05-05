@@ -1,7 +1,7 @@
 <template>
   <div class="new-song">
     <Tab :item="tab" @value="getType" />
-    <table collapse="0" cellspacing="0" coll class="music-table">
+    <table cellspacing="0" coll class="music-table">
       <tr v-for="(e, i) in list" :key="e.id" class="ihover" :class="{on: i==on}" @click="playing(i)">
         <td class="no">
           <span v-show="i!=on">{{i+1}}</span>
@@ -9,7 +9,7 @@
         </td>
         <td><img :src="$utils.imgSize(e.picture, 100)" /></td>
         <td class="name">{{e.name}}<i v-if="e.mvid" class="iconfont iconvideo"></i></td>
-        <td>{{e.article}}</td>
+        <td>{{e.artists}}</td>
         <td>{{e.from}}</td>
         <td class="time">{{$utils.timeInterval(e.duration)}}</td>
       </tr>
@@ -71,20 +71,12 @@ export default class NewSong extends Vue {
   playing( i: number){
     this.on = i
     const e: any = this.list[i]
-    const data = {
-      id:e.id,
-      name:e.name,
-      time: e.duration,
-      singer: e.article,
-      img:e.picture
-    }
-    this.$utils.startMusic(data)
+    this.$utils.startMusic(e)
   }
   get isPlaying(){
     return store.state.isPlaying
   }
   @Watch('isPlaying') changePlaying(e: boolean){
-    console.log(e)
     if(!e) this.playing(this.on+1)
   }
 

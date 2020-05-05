@@ -4,13 +4,13 @@
     <div class="mini-main">
       <div class="common-mini mini-L">
         <template v-if="playingMusic.id">
-          <div class="music-img"><img :src="$utils.imgSize(playingMusic.img, 80)" /></div>
+          <div class="music-img"><img :src="$utils.imgSize(playingMusic.picture, 80)" /></div>
           <div class="music-singer-box">
             <div class="music-singer">
-              <p>{{playingMusic.name}}</p> - <span>{{playingMusic.singer}}</span>
+              <p>{{playingMusic.name}}</p> - <span>{{playingMusic.artists}}</span>
             </div>
             <div class="music-time">
-              {{timeUse||'00:00'}}/{{$utils.timeInterval(playingMusic.time)}}
+              {{timeUse||'00:00'}}/{{$utils.timeInterval(playingMusic.duration)}}
             </div>
           </div>
         </template>

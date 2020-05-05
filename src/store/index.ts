@@ -9,7 +9,7 @@ export default new Vuex.Store({
     
     playlistShow: false, //左边播放列表显隐
     playlistMusic:[],  //播放列表
-    playlistHistory: [] //历史记录
+    playlistHistory: localStorage.getItem('play_history')?JSON.parse(localStorage.getItem('play_history')!):[] //历史记录
   },
   getters: {
     GET_ISPLAYING: state => {

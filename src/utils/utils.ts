@@ -42,10 +42,10 @@ export const createSongMsg = (e: any): any => {
     id,
     name,
     picture,
-    article: artists.map((item: any) => item.name).join('/'),
+    artists: artists.map((item: any) => item.name).join('/'),
     from,
     duration, //ms
-    mvid,
+    mvid
   }
   return song
 }
@@ -53,9 +53,10 @@ export const createSongMsg = (e: any): any => {
 export const startMusic = (song: any) => {
   store.commit('SET_PLAYINGMUSIC', song)
   store.commit('SET_ISPLAYING', true)
-  const playHistory: any[] = store.state.playlistHistory
+  const playHistory: any = store.state.playlistHistory
   const historyIndex = playHistory.findIndex((item: any) => item.id == song.id)
   if(historyIndex != -1) playHistory.splice(historyIndex, 1);
   playHistory.unshift(song)
   store.commit('SET_PLAYLISTHISTORY', playHistory)
+  localStorage.setItem('play_history', JSON.stringify(playHistory))
 }

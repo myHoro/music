@@ -10,11 +10,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import {navRoutes} from '@/router'
-@Component({
-  created(){
-    console.log(navRoutes)
-  }
-})
+@Component
 export default class Main extends Vue {
   navs = navRoutes
 }

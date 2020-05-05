@@ -1,37 +1,42 @@
 <template>
   <div class="search-box">
-    <i class="iconfont iconsearch"></i><input class="input" type="text" v-model="searchKey" @focus="inSearch" @blur="outSearch" @keyup.enter="searchSumit" placeholder="搜索" />
-    <div class="search-msg" v-show="show">
-      <div class="msg-item">
-        <p>热门搜索</p>
-        <ul class="result">
-          <li v-for="(e, i) in list" :key="i" class="ihover">{{e.first}}</li>
-        </ul>
+    <i class="iconfont iconsearch"></i><input class="input" type="text" v-model="searchKey" @focus="show = true" @keyup.enter="searchSumit" placeholder="搜索" />
+    <Toggle :show="show" :domClass="['search-box']" @updata:show="show = false">
+      <div class="search-msg" v-show="show">
+        <div class="msg-item">
+          <p>热门搜索</p>
+          <ul class="result">
+            <li v-for="(e, i) in list" :key="i" class="ihover" @click="goSearch(e.first)">{{e.first}}</li>
+          </ul>
+        </div>
+        <div class="msg-item">
+          <p>搜索记录</p>
+          <ul class="result" v-show="searchKeyHistory.length">
+            <li v-for="(e, i) in searchKeyHistory" :key="i" class="ihover" @click="goSearch(e)">{{e}}</li>
+          </ul>
+          <div v-show="!searchKeyHistory.length" class="no-search-key">暂无搜索记录</div>
+        </div>
       </div>
-      <div class="msg-item">
-        <p>搜索记录</p>
-        <ul class="result" v-show="searchKeyHistory.length">
-          <li v-for="(e, i) in searchKeyHistory" :key="i" class="ihover">{{e}}</li>
-        </ul>
-        <div class="no-search-key">暂无搜索记录</div>
-      </div>
-    </div>
+    </Toggle>
   </div>
 </template>
 
 <script lang="ts">
 import { searchHot } from '@/request/api'
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
+import Toggle from './toggle.vue'
+import store from '../store';
+@Component({
+  components: {
+    Toggle
+  }
+})
 export default class Search extends Vue {
   show = false
   inSearch(): void{
     this.show = true;
   }
-  outSearch(): void{
-    this.show = false
-  }
+  
   list = [];
 
   searchKey = '';
@@ -45,13 +50,22 @@ export default class Search extends Vue {
       this.searchKeyHistory.unshift(this.searchKey)
     }
     localStorage.setItem('search_key', this.searchKeyHistory.join(','))
+    // const t = new Date().getTime()+''
+    this.$router.push({name:'searchMusic', params:{keywords: this.searchKey}}) //使用  /search/:params 的时候path无效，需要使用name属性进行路由导航，否则页面不会跳转
+    this.show = false
   }
+  goSearch(e: string){
+    // const t = new Date().getTime()+''
+    this.$router.push({name:'searchMusic', params:{keywords:e}})
+    // this.$router.push('search/'+e)
+    this.show = false
+  }
+
   created(){
     searchHot().then((res: any) => {
       this.list = res.result.hots
     })
     if(localStorage.getItem('search_key')) this.searchKeyHistory = localStorage.getItem('search_key')!.split(',')
-    
   }
 }
 </script>
