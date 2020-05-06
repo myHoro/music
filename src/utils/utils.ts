@@ -41,7 +41,7 @@ export const createSongMsg = (e: any): any => {
   const song = {
     id,
     name,
-    picture,
+    picture: picture||require('@/assets/img/default-pic.jpg'),
     artists: artists.map((item: any) => item.name).join('/'),
     from,
     duration, //ms

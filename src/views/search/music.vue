@@ -9,10 +9,13 @@
           <p class="common">专辑</p>
           <p class="times">时长</p>
         </li>
-        <li v-for="(e, i) in list" :key="e.id" @click="playing(i)" class="song-main ihover">
-          <div class="no">{{i+1}}</div>
+        <li v-for="(e, i) in list" :key="e.id" @click="playing(i)" class="song-main" :class="{on: e.id==playingMusic.id}">
+          <div class="no">
+            <i v-if="e.id==playingMusic.id" class="iconfont iconsound"></i>
+            <span v-else>{{i+1}}</span>
+          </div>
           <div class="common overHidden">
-            <p>{{e.name}}</p>
+            <p class="song-name">{{e.name}} <i v-if="e.mvid" class="iconfont iconvideo" /></p>
             <p v-if="e.alias.length" class="alias">{{e.alias.join('、')}}</p>
           </div>
           <div class="common overHidden">{{e.artists}}</div>
@@ -30,6 +33,7 @@ import { Component, Prop, Inject, Vue } from 'vue-property-decorator';
 import { searchKeywords } from '@/request/api'
 
 import Pagination from '@/components/Pagination.vue'
+import store from '../../store';
 @Component({
   components: {
     Pagination
@@ -70,6 +74,10 @@ export default class SearchMain extends Vue {
     this.pageIndex = e;
     this.getList()
   }
+
+  get playingMusic(){
+    return store.state.playingMusic
+  }
   created(){
     this.getList()
   }
@@ -93,11 +101,25 @@ export default class SearchMain extends Vue {
           box-sizing: border-box;
           width: 0;
           padding:0 10px;
+          .song-name{
+            display: flex;
+            align-items: center;
+            .iconvideo{
+              cursor: pointer;
+              color: $blue;
+              font-size:24px;
+              margin-left: 10px;
+            }
+          }
         } 
         .no{
           width: 80px;
           text-align: center;
           color: #bbb;
+          .iconsound{
+            color: $blue;
+            font-size: 18px;
+          }
         }
         .times{
           width: 65px;
@@ -114,6 +136,12 @@ export default class SearchMain extends Vue {
         }
       }
       .song-main{
+        &:nth-child(odd){
+          background: #f9f9f9;
+        }
+        &:hover{
+          background:#e9e9e9
+        }
         div{
           font-size: 16px;
           .alias{
@@ -123,8 +151,9 @@ export default class SearchMain extends Vue {
           }
         }
       }
-      .song-main:nth-child(odd){
-        background: #f9f9f9;
+      
+      .on{
+        color: $blue;
       }
     }
   }

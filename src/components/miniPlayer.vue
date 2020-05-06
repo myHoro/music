@@ -102,10 +102,10 @@ export default class MiniPlayer extends Vue {
   updateTime(e: any){ //audio -> timeupdate 事件，播放实时进度
     const time = e.target.currentTime;
     this.timeUse = this.$utils.timeInterval(e.target.currentTime*1000)
-    this.percent = time/(this.playingMusic.time/1000);
+    this.percent = time/(this.playingMusic.duration/1000);
   }
   getPercent(e: number){ //调节歌曲进度
-    this.audio.currentTime = this.playingMusic.time/1000*e
+    this.audio.currentTime = this.playingMusic.duration/1000*e
   }
   end(){ //播放完毕触发
     this.isPlay = false;

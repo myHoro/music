@@ -50,8 +50,8 @@ export default class Search extends Vue {
       this.searchKeyHistory.unshift(this.searchKey)
     }
     localStorage.setItem('search_key', this.searchKeyHistory.join(','))
-    // const t = new Date().getTime()+''
-    this.$router.push({name:'searchMusic', params:{keywords: this.searchKey}}) //使用  /search/:params 的时候path无效，需要使用name属性进行路由导航，否则页面不会跳转
+    this.$router.push({name:'searchMusic', params:{keywords: this.searchKey}})
+    //使用  /search/:params 的时候path无效，需要使用name属性进行路由导航，否则页面不会跳转
     this.show = false
   }
   goSearch(e: string){

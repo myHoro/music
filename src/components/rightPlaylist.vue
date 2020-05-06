@@ -21,8 +21,8 @@
         <table class="list-table" cellspacing="0">
           <tr v-for="(e, i) in playlistHistory" :key="e.id" class="ihover" :class="{on: i==0&&isPlay}" @click="playMusic(e)">
             <td width="225"><div style="width:225px" class="overHidden">{{e.name}}</div></td>
-            <td width="210"><div style="width:210px" class="overHidden">{{e.singer}}</div></td>
-            <td width="65">{{$utils.timeInterval(e.time)}}</td>
+            <td width="210"><div style="width:210px" class="overHidden">{{e.artists}}</div></td>
+            <td width="65">{{$utils.timeInterval(e.duration)}}</td>
           </tr>
         </table>
       </div>

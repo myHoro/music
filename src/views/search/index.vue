@@ -56,7 +56,7 @@ export default class SearchMain extends Vue {
 <style lang="scss" scoped>
   .search-page{
     .tip{
-      padding: 20px 30px 50px 30px;
+      padding: 20px 30px 30px 30px;
       .keywords{
         font-size: 32px;
         margin-right: 8px;
