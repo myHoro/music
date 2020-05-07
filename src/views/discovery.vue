@@ -30,7 +30,7 @@
       <li v-for="e in tjMv" :key="e.id">
         <div class="mv-msg">
           <div class="playCount">
-            <i class="iconfont iconbf"></i>{{e.playCount}}
+            <i class="iconfont iconbf"></i>{{$utils.formatNumber(e.playCount)}}
           </div>
           <img :src="$utils.imgSize(e.picUrl, 500, 260)" />
           <i class="iconfont iconbf mvplay"></i>
@@ -223,7 +223,6 @@ export default class Discovery extends Vue {
             line-height: 46px;
             font-size: 28px;
           }
-          
         }
         .mvname-singer{
           padding-top: 10px;

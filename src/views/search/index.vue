@@ -4,7 +4,7 @@
       <span class="keywords">{{keywords}}</span>
       <span class="result">共找到{{count}}个结果</span>
     </div>
-    <Tab :item="tabs" class="searchTab" @value="getValue" />
+    <Tab :item="tabs" class="searchTab" @value="getValue" :name-on="nameOn" />
     <router-view></router-view>
   </div>
 </template>
@@ -24,6 +24,7 @@ export default class SearchMain extends Vue {
     {name:'歌单', value:'searchSongList'},
     {name:'MV', value:'searchMvs'}
   ]
+
   rOn = 'searchMusic'
   getValue(e: string){
     if(e != this.rOn){
@@ -32,13 +33,14 @@ export default class SearchMain extends Vue {
     }
   }
   
-  @Prop() keywords!: string
-  count = 0;
-  created(){
-    // this.keywords = this.$route.params.keywords
-    console.log('-*-',this.keywords)
+  nameOn = ''
+  setNameOn(e: any){
+    this.nameOn = e
   }
   
+  @Prop() keywords!: string
+  
+  count = 0;
   setCount(count: number){
     this.count = count
   }

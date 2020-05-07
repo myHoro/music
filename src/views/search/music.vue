@@ -14,8 +14,8 @@
             <i v-if="e.id==playingMusic.id" class="iconfont iconsound"></i>
             <span v-else>{{i+1}}</span>
           </div>
-          <div class="common overHidden">
-            <p class="song-name">{{e.name}} <i v-if="e.mvid" class="iconfont iconvideo" /></p>
+          <div class="common">
+            <p class="song-name overHidden">{{e.name}} <i v-if="e.mvid" class="iconfont iconvideo" /></p>
             <p v-if="e.alias.length" class="alias">{{e.alias.join('、')}}</p>
           </div>
           <div class="common overHidden">{{e.artists}}</div>
@@ -40,7 +40,7 @@ import store from '../../store';
   }
 })
 
-export default class SearchMain extends Vue {
+export default class SearchMusic extends Vue {
   @Inject() searchRoot!: any
   
   playing(i: number){
@@ -59,7 +59,7 @@ export default class SearchMain extends Vue {
       keywords: this.searchRoot.keywords
     }
     searchKeywords(data).then((res: any) => {
-      console.log(res)
+      // console.log(res)
       const d = res.result
       this.totalPage = this.$utils.pageTotal(this.limit, d.songCount)
       this.list = d.songs.map((e: any) => {
@@ -80,6 +80,9 @@ export default class SearchMain extends Vue {
   }
   created(){
     this.getList()
+    this.searchRoot.setNameOn('歌曲')
+    //this.searchRoot.nameOn = '歌曲';
+    //直接修改父级页面的变量不会生效，页面不会相应，需要在父级页面添加一个修改的方法，调用其方法，并把要修改的值传给此方法，才会生效
   }
 }
 </script>

@@ -7,17 +7,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
+import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
 interface Items {
   name: string;
   value: string;
 }
 @Component
 export default class Tab extends Vue {
-  
+
   @Prop() item!: Items[]
   on = 0
-
+  
+  @Prop() nameOn!: any
+  @Watch('nameOn') onByName(e: any){
+    this.on = this.item.findIndex(item => item.name == e)
+  }
+  @Prop() valueOn!: any
+  @Watch('valueOn') onByValue(e: any){
+    this.on = this.item.findIndex(item => item.value == e)
+  }
   // @Emit方法，即以前的this.$emit('func',value)
   // @Emit('type') 即 -> func, return的值 -> value, choose -> 触发Emit的方法事件
   // @Emit('type') choose(i: number): string{
