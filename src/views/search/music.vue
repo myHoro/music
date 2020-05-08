@@ -15,7 +15,10 @@
             <span v-else>{{i+1}}</span>
           </div>
           <div class="common">
-            <p class="song-name overHidden">{{e.name}} <i v-if="e.mvid" class="iconfont iconvideo" /></p>
+            <div class="song-name">
+              <p class="overHidden">{{e.name}}</p>
+              <p><i v-if="e.mvid" class="iconfont iconvideo" /></p>
+            </div>
             <p v-if="e.alias.length" class="alias">{{e.alias.join('、')}}</p>
           </div>
           <div class="common overHidden">{{e.artists}}</div>
@@ -32,7 +35,7 @@
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator';
 import { searchKeywords } from '@/request/api'
 
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/pagination.vue'
 import store from '../../store';
 @Component({
   components: {
@@ -107,6 +110,9 @@ export default class SearchMusic extends Vue {
           .song-name{
             display: flex;
             align-items: center;
+            span{
+              display: block;
+            }
             .iconvideo{
               cursor: pointer;
               color: $blue;

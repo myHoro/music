@@ -13,7 +13,7 @@
 import { Component, Inject, Vue } from 'vue-property-decorator';
 import { searchKeywords } from '@/request/api'
 import ListCard from '@/components/listCard.vue'
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/pagination.vue'
 @Component({
   components: {
     ListCard,

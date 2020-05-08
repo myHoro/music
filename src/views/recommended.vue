@@ -25,7 +25,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { topPlaylist, playlist } from '@/request/api'
 import Tab from '@/components/tab.vue'
 import ListCard from '@/components/listCard.vue'
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/pagination.vue'
 @Component({
   components: {
     Tab,

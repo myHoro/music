@@ -17,5 +17,6 @@ export const playlist = (data: {offset: number; limit: number; cat: string; orde
 
 export const newsong = (type: number|string) => get('/top/song', {type})
 
+export const newMvs = (data: {limit: number; offset: number; order?: string; area?: string; type?: string}) => get('/mv/all', data)
 
 // 接口路径前面加上 '/'更安全... 不加斜杠，接口地址有时候会和访问路由冲突（当路由和接口地址相同时，比如：路由和接口地址都为search的时候？），访问的接口地址会多出一节路由地址

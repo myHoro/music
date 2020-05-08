@@ -54,6 +54,13 @@ export default class Pagination extends Vue {
     this.max = e
   }
 
+  @Prop() nowPage!: number
+  @Watch('nowPage') setCurrent(e: number){
+    this.current = e
+  }
+  @Watch('current') currentChange(e: number){
+    this.$emit('update:nowPage', e)
+  }
   current = 1
   showPage = []
 

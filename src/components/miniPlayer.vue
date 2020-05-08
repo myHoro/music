@@ -82,7 +82,7 @@ export default class MiniPlayer extends Vue {
     localStorage.setItem('default_volume', e)
   }
 
-  isPlay = true
+  isPlay = false
   play(): void{
     if(!this.playingMusic.id) return;
     this.isPlay = !this.isPlay

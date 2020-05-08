@@ -25,7 +25,7 @@ import { Component, Prop, Inject, Vue } from 'vue-property-decorator';
 
 import { searchKeywords } from '@/request/api'
 import ListCard from '@/components/listCard.vue'
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/pagination.vue'
 @Component({
   components: {
     ListCard,
@@ -87,73 +87,73 @@ export default class SearchMvs extends Vue {
   margin: 0 auto;
   padding:30px 100px 50px 100px; 
   .mvs-box{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      padding-bottom: 15px;
-      li{
-        width: 23%;
-        cursor: pointer;
-        margin-bottom: 30px;
-        &:hover{
-          .play-icon{
-            display: block;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    li{
+      width: 23%;
+      cursor: pointer;
+      margin-bottom: 30px;
+      &:hover{
+        .play-icon{
+          display: block;
+        }
+      }
+      .mv-msg{
+        position: relative;
+        padding-top: 56%;
+
+        img{
+          width: 100%;
+          height: 100%;
+          border-radius: 6px;
+          position: absolute;
+          top:0;
+          left: 0;
+        }
+        .playCount{
+          display: flex;
+          align-items: center;
+          color: #fff;
+          font-size: 16px;
+          position: absolute;
+          top:6px;
+          right: 10px;
+          z-index: 3;
+
+          i{
+            font-size: 18px;
+            margin-right: 5px;
           }
         }
-        .mv-msg{
-          position: relative;
-          padding-top: 56%;
-
-          img{
-            width: 100%;
-            height: 100%;
-            border-radius: 6px;
-            position: absolute;
-            top:0;
-            left: 0;
-          }
-          .playCount{
-            display: flex;
-            align-items: center;
-            color: #fff;
-            font-size: 16px;
-            position: absolute;
-            top:6px;
-            right: 10px;
-            z-index: 3;
-
-            i{
-              font-size: 18px;
-              margin-right: 5px;
-            }
-          }
-          .mvplay{
-            @extend .play-icon;
-            display: none;
-            width: 46px;
-            height: 46px;
-            line-height: 46px;
-            font-size: 28px;
-          }
-          .time{
-            position: absolute;
-            right: 10px;
-            bottom: 5px;
-            color: #fff;
-          }
+        .mvplay{
+          @extend .play-icon;
+          display: none;
+          width: 46px;
+          height: 46px;
+          line-height: 46px;
+          font-size: 28px;
         }
-        .mvname-singer{
+        .time{
+          position: absolute;
+          right: 10px;
+          bottom: 5px;
+          color: #fff;
+        }
+      }
+      .mvname-singer{
+        padding-top: 5px;
+        .mv-name{
+          font-size: 16px;
+        }
+        .singer-name{
+          font-size: 14px;
+          color: #777;
           padding-top: 5px;
-          .mv-name{
-            font-size: 16px;
-          }
-          .singer-name{
-            font-size: 14px;
-            color: #777;
-            padding-top: 5px;
-          }
         }
       }
     }
+  }
 }
 </style>

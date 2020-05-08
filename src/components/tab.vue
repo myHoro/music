@@ -1,20 +1,19 @@
 <template>
   <div>
-    <ul class="tab-ul">
+    <ul class="tab-ul" :style="{justifyContent:alignValue(align)}">
       <li v-for="(e, i) in item" :key="i" @click="choose(i)" :class="{on: on==i}">{{e.name}}</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 interface Items {
   name: string;
-  value: string;
+  value?: string;
 }
 @Component
 export default class Tab extends Vue {
-
   @Prop() item!: Items[]
   on = 0
   
@@ -35,12 +34,36 @@ export default class Tab extends Vue {
 
   // 若没定义type【@Emit()】  则触发方法事件（choose）即为触发emit（func）的事件
   choose(i: number){
-    if(this.on == i) return;
+    if(this.on == i) return; //@Emit 事件必定会触发？
     this.on = i;
     this.$emit('name', this.item[i].name)
     this.$emit('value', this.item[i].value)
   }
 
+  @Prop({
+    type: String,
+    default: 'right'
+  }) align!: string
+  get alignValue(){
+    return function(e: any){
+      let value = '';
+      switch(e){
+        case 'left':
+          value = 'flex-start'
+          break;
+        case 'center':
+          value = 'center'
+          break;
+        case 'right':
+          value = 'flex-end'
+          break;
+        default:
+          value = 'space-between'
+      }
+      return value;
+    }
+    
+  }
 }
 </script>
 
