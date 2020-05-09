@@ -4,7 +4,12 @@
     <div class="mini-main">
       <div class="common-mini mini-L">
         <template v-if="playingMusic.id">
-          <div class="music-img"><img :src="$utils.imgSize(playingMusic.picture, 80)" /></div>
+          <div class="music-img">
+            <img :src="$utils.imgSize(playingMusic.picture, 80)" />
+            <div class="open-close-btn" @click="toggleSongDetail">
+              <i class="iconfont" :class="open?'icontwobottom':'icontwotop'"></i>
+            </div>
+          </div>
           <div class="music-singer-box">
             <div class="music-singer">
               <p>{{playingMusic.name}}</p> - <span>{{playingMusic.artists}}</span>
@@ -48,7 +53,7 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import ProgressBar from './progressBar.vue'
+import ProgressBar from '@/components/progressBar.vue'
 import store from '../store';
 
 @Component({
@@ -88,9 +93,12 @@ export default class MiniPlayer extends Vue {
     this.isPlay = !this.isPlay
     if(this.isPlay == true){
       this.audio.play()
+      store.commit('SET_ISPLAYING', true)
     }else{
       this.audio.pause()
+      store.commit('SET_ISPLAYING', false)
     }
+    // store.commit('SET_ISPLAYING', this.isPlay)
   }
   percent = 0;
   timeUse = '';
@@ -116,7 +124,6 @@ export default class MiniPlayer extends Vue {
       alert('播放失败')
       store.commit('SET_ISPLAYING', false)
     }
-    
   }
   get playingMusic(): any{ //获取播放音乐数据
     return store.state.playingMusic
@@ -129,6 +136,12 @@ export default class MiniPlayer extends Vue {
     store.commit('SET_PLAYLISTSHOW', !this.playlistShow)
   }
 
+  get open(): boolean{//歌曲详情是否显示
+    return store.state.songDetailShow
+  }
+  toggleSongDetail(){
+    store.commit('SET_SONGDETAILSHOW', !this.open)
+  }
 
   mounted(){
     this.audio.volume = this.volume //页面加载完毕，设置音量为默认音量
@@ -140,7 +153,9 @@ export default class MiniPlayer extends Vue {
 <style lang="scss" scoped>
   .mini-play{
     height: 70px;
-
+    background: #fff;
+    position: relative;
+    z-index: 99;
     .progress{
       display: flex;
       align-items: center;
@@ -169,9 +184,32 @@ export default class MiniPlayer extends Vue {
           height: 100%;
           padding:5px 10px 5px;
           overflow: hidden;
+          position: relative;
           img{
             height: 100%;
             border-radius: 6px;
+          }
+          &:hover img{
+            filter:blur(1px);
+          }
+          &:hover .open-close-btn{
+            display: flex;
+          }
+          .open-close-btn{
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            position: absolute;
+            top:0;
+            left: 0;
+            z-index: 10;
+            i{
+              color: #fff;
+              font-size: 24px;
+            }
           }
         }
         .music-singer-box{

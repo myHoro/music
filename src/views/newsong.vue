@@ -76,9 +76,9 @@ export default class NewSong extends Vue {
   get isPlaying(){
     return store.state.isPlaying
   }
-  @Watch('isPlaying') changePlaying(e: boolean){
-    if(!e) this.playing(this.on+1)
-  }
+  // @Watch('isPlaying') changePlaying(e: boolean){
+  //   if(!e) this.playing(this.on+1)
+  // }
 
   get playingMusic(): any{
     return store.state.playingMusic

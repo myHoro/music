@@ -9,7 +9,9 @@ export default new Vuex.Store({
     
     playlistShow: false, //左边播放列表显隐
     playlistMusic:[],  //播放列表
-    playlistHistory: localStorage.getItem('play_history')?JSON.parse(localStorage.getItem('play_history')!):[] //历史记录
+    playlistHistory: localStorage.getItem('play_history')?JSON.parse(localStorage.getItem('play_history')!):[], //历史记录
+  
+    songDetailShow: false
   },
   getters: {
     GET_ISPLAYING: state => {
@@ -26,6 +28,9 @@ export default new Vuex.Store({
     },
     GET_PLAYLISTHISTORY: state => {
       return state.playlistHistory
+    },
+    GET_SONGDETAILSHOW: state => {
+      return state.songDetailShow
     }
   },
   mutations: {
@@ -43,6 +48,9 @@ export default new Vuex.Store({
     },
     SET_PLAYLISTHISTORY: (state, data) => {
       state.playlistHistory = data
+    },
+    SET_SONGDETAILSHOW: (state, data) => {
+      state.songDetailShow = data
     }
   },
   actions: {

@@ -11,7 +11,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import {navRoutes} from '@/router'
 @Component
-export default class Main extends Vue {
+export default class Nav extends Vue {
   navs = navRoutes
 }
 </script>
