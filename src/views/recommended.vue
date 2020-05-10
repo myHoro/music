@@ -135,6 +135,7 @@ export default class Recommend extends Vue {
         .name{
           color: #fff;
           font-size: 24px;
+          padding:5px 0;
         }
         .desc{
           color: #bbb;
