@@ -143,14 +143,6 @@ export default class RightPlaylist extends Vue {
   .scroll-table{
     flex: 1;
     overflow-y: auto;
-    &::-webkit-scrollbar { /* 滚动条-容器 */
-      width: 5px;
-      background-color: #eee;
-    }
-    &::-webkit-scrollbar-thumb { /* 滚动条-块 */
-      border-radius:1px;
-      background: #ccc;
-    }
     .list-table{
       width: 100%;
       color: #555;

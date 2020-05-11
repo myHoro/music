@@ -4,19 +4,18 @@
       <span class="keywords">{{keywords}}</span>
       <span class="result">共找到{{count}}个结果</span>
     </div>
-    <Tab :item="tabs" class="searchTab" @value="getValue" :name-on="nameOn" />
+    <Tab :item="tabs" align="left" class="searchTab" @value="getValue" :name-on="nameOn" />
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Provide, Vue } from 'vue-property-decorator';
+import { Component, Prop, Provide, Watch, Inject, Vue } from 'vue-property-decorator';
 import Tab from '@/components/tab.vue'
 @Component({
   components: {
     Tab
-  },
-  
+  }
 })
 export default class SearchMain extends Vue {
   tabs = [
@@ -38,11 +37,17 @@ export default class SearchMain extends Vue {
     this.nameOn = e
   }
   
+  valueOn = ''
   @Prop() keywords!: string
-  
+
   count = 0;
   setCount(count: number){
     this.count = count
+  }
+  
+  @Inject() reload!: any
+  @Watch('$route') routeChange(){ //直接监听路由变化刷新吧，方便...
+    this.reload()
   }
 
   @Provide() searchRoot = this
@@ -58,7 +63,7 @@ export default class SearchMain extends Vue {
 <style lang="scss" scoped>
   .search-page{
     .tip{
-      padding: 20px 30px 30px 30px;
+      padding: 20px 30px;
       .keywords{
         font-size: 32px;
         margin-right: 8px;
@@ -68,12 +73,13 @@ export default class SearchMain extends Vue {
         color: #bbb;
       }
     }
+    .searchTab{
+      border-bottom: 1px solid #eee;
+    }
   }
 </style>
 <style scoped>
   .searchTab >>> .tab-ul{
-    justify-content: flex-start;
-    border-bottom: 1px solid #eee;
     font-size: 20px;
     padding-left: 10px;
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="song-detail" :class="{show:show}">
-    <div class="song-detail-main">
+    <div class="song-detail-main" v-if="song.id">
       <div class="song-msg">
         <div class="song-msg-left">
           <img class="play-ball" src="@/assets/img/play-bar-ball.png" />
@@ -22,6 +22,11 @@
               <div class="content">
                 <div class="content-top">
                   <span class="name">{{e.user.nickname}}：</span>{{e.content}}
+                  <template v-if="e.beReplied.length">
+                    <div v-for="r in e.beReplied" :key="r.beRepliedCommentId" class="reply">
+                      <span>{{r.user.nickname}}：</span>{{r.content}}
+                    </div>
+                  </template>
                 </div>
                 <div class="content-bottom">
                   <span>{{e.time}}</span>
@@ -37,6 +42,11 @@
               <div class="content">
                 <div class="content-top">
                   <span class="name">{{e.user.nickname}}：</span>{{e.content}}
+                  <template v-if="e.beReplied.length">
+                    <div v-for="r in e.beReplied" :key="r.beRepliedCommentId" class="reply">
+                      <span>{{r.user.nickname}}：</span>{{r.content}}
+                    </div>
+                  </template>
                 </div>
                 <div class="content-bottom">
                   <span>{{e.time}}</span>
@@ -128,15 +138,12 @@ export default class SongDetail extends Vue {
     this.getComment()
 
     simiPlaylist(e).then((res: any) => {
-      console.log(res)
       this.simiList = res.playlists
     })
     simiMusic(e).then((res: any) => {
       this.simiMusicList = res.songs.map((e: any) => {
         return this.$utils.createSongMsg(e)
       })
-      
-      console.log(this.simiMusicList)
     })
   }
 
@@ -265,6 +272,17 @@ export default class SongDetail extends Vue {
                   .name{
                     color: $blue;
                   }
+                  .reply{
+                    font-size: 14px;
+                    color: #555;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    padding:10px 12px;
+                    background: #e6e5e6;
+                    span{
+                      color: $blue;
+                    }
+                  }
                 }
                 .content-bottom{
                   display: flex;
@@ -284,6 +302,8 @@ export default class SongDetail extends Vue {
         .tj{
           width: 350px;
           padding-left: 50px;
+          position: sticky;
+          top:0;
           h2{
             padding-bottom: 20px;
           }

@@ -27,12 +27,12 @@
         </li>
       </ul>
     </div>
-    <Pagination :total="totalPage" @change="getCurrentPage" style="padding-right:20px" />
+    <Pagination :total="totalPage" @change="getCurrentPage" :nowPage.sync="nowPageIndex" style="padding-right:20px" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Inject, Vue } from 'vue-property-decorator';
+import { Component, Prop, Inject, Vue, Watch } from 'vue-property-decorator';
 import { searchKeywords } from '@/request/api'
 
 import Pagination from '@/components/pagination.vue'
@@ -77,6 +77,12 @@ export default class SearchMusic extends Vue {
     this.pageIndex = e;
     this.getList()
   }
+
+  nowPageIndex = 0
+  @Watch('searchRoot.keywords') paramChange(e: any){
+    this.pageIndex = this.nowPageIndex = 1
+    this.getList()
+  } 
 
   get playingMusic(){
     return store.state.playingMusic
