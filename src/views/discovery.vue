@@ -3,7 +3,7 @@
     <Swiper class="swiper-box" :img="img" />
     <div class="discovery-title">推荐歌单</div>
     <div class="show-tj">
-      <router-link class="show-link" v-for="e in tjSongSheetList" :key="e.id" to="">
+      <router-link class="show-link" v-for="e in tjSongSheetList" :key="e.id" :to="{name:'playlistDetail', params:{id:e.id}}">
         <ListCard :msg="e.copywriter" :title="e.name" :imgSrc="$utils.imgSize(e.picUrl, 450)" />
       </router-link>
     </div>

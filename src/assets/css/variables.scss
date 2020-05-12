@@ -1,3 +1,17 @@
 $blue: #29a1f7;
 $headerHeight: 60px;
 $miniPlayerHeight: 70px;
+
+@mixin text-ellipsis-multi($line) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
+
+@mixin main-box{
+  max-width: 1500px;
+  margin: 0 auto;
+  padding:50px;
+}

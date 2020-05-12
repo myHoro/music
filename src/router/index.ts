@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import { playlist } from '@/request/api'
 
 const discovery = () => import(/* webpackChunkName: "discovery" */ '@/views/discovery.vue')
 const recommended = () => import(/* webpackChunkName: "recommended" */ '@/views/recommended.vue')
@@ -9,7 +10,7 @@ const search = () => import(/* webpackChunkName: "search" */ '@/views/search/ind
 const searchMusic = () => import(/* webpackChunkName: "searchMusic" */ '@/views/search/music.vue')
 const searchSongList = () => import(/* webpackChunkName: "searchSongList" */ '@/views/search/songList.vue')
 const searchMvs = () => import(/* webpackChunkName: "searchMvs" */ '@/views/search/mvs.vue')
-
+const playlistDetail = () =>  import(/* webpackChunkName: "playlistDetail" */ '@/views/playlistDetail.vue')
 Vue.use(VueRouter)
 
 export const navRoutes: Array<RouteConfig> = [
@@ -55,6 +56,15 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     redirect:'/discovery'
+  },
+  {
+    path:'/playlistDetail/:id',
+    name:'playlistDetail',
+    component: playlistDetail,
+    props: true,
+    meta:{
+      title: '歌单详情'
+    }
   },
   {
     path: '/search/:keywords', //当使用此方法传递参数的时候，需要用name去路由跳转。不然页面无法正常跳转
