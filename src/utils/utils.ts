@@ -6,6 +6,14 @@ export const imgSize = (url: string, w: number, h?: number): string => {
   return url
 }
 
+export const formatDate = (date: number | Date, fmt = 'yyyy-MM-dd hh:mm:ss'): string => {
+  date = date instanceof Date ? date : new Date(date)
+  // if(/(y+)/.test(fmt)){
+
+  // }
+  return fmt
+}
+
 export const timeInterval = (e: number): string => {
   if(!e) return '';
   const h = Math.floor(e/(1000*60*60));
