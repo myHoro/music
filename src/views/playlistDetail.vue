@@ -1,7 +1,7 @@
 <template>
   <div class="playlist-detail-box">
     <div class="msg">
-      <div class="msg-left"><img :src="$utils.imgSize(msg.coverImgUrl, 400)" /></div>
+      <div class="msg-left"><img v-if="msg.coverImgUrl" :src="$utils.imgSize(msg.coverImgUrl, 400)" /></div>
       <div class="msg-right">
         <h2>{{msg.name}}</h2>
         <div class="creator" v-if="msg.creator">
@@ -17,13 +17,13 @@
     <div class="tabs-box">
       <div class="tab">
         <p :class="{on: tabOn==0}" @click="changeTab(0)">歌曲列表</p>
-        <p :class="{on: tabOn==1}" @click="changeTab(1)">评论</p>
+        <p :class="{on: tabOn==1}" @click="changeTab(1)">评论（{{total}}）</p>
       </div>
       <div class="search-box" v-show="tabOn==0">
         <i class="iconfont iconsearch" /><input type="text" v-model="searchValue" placeholder="搜索歌单音乐" autocomplete="off" />
       </div>
     </div>
-    <table cellspacing="0" coll class="music-table">
+    <table cellspacing="0" class="music-table" v-show="tabOn==0">
       <tr class="thead"><td height="40"></td><td></td><td>音乐标题</td><td>歌手</td><td>专辑</td><td>时长</td></tr>
       <tr v-for="(e, i) in filterList" :key="e.id" class="ihover" :class="{on: i==on}" @click="playing(i)">
         <td class="no" width="30">
@@ -37,13 +37,27 @@
         <td class="time">{{$utils.timeInterval(e.duration)}}</td>
       </tr>
     </table>
+    <div class="comments-box" v-show="tabOn==1">
+      <h2 v-if="hotComments.length">热门评论</h2>
+      <Comments v-if="hotComments.length" :list="hotComments" />
+      <h2 style="padding-top:45px">最新评论</h2>
+      <Comments :list="comments" />
+      <Pagination :total="total" @change="getCurrentPage" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { playlistDetail, songList } from '@/request/api'
-@Component
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+import { playlistDetail, songList, commentPlaylist } from '@/request/api'
+import Pagination from '@/components/pagination.vue'
+import Comments from '@/components/comments.vue'
+@Component({
+  components: {
+    Comments,
+    Pagination
+  }
+})
 export default class PlaylistDetail extends Vue {
   @Prop() id!: number
   msg = {}
@@ -56,9 +70,34 @@ export default class PlaylistDetail extends Vue {
     this.$utils.startMusic(e)
   }
 
+  pageIndex = 1
+  limit = 50
+  total = 0
+  hotComments = []
+  comments = []
+  commentList(){
+    const data = {
+      id: this.id,
+      limit: this.limit,
+      offset: this.$utils.pageOffset(this.pageIndex, this.limit)
+    }
+    commentPlaylist(data).then((res: any) => {
+      // console.log(res)
+      if(this.pageIndex == 1){
+        this.total = res.total
+        this.hotComments = res.hotComments
+      }
+      this.comments = res.comments
+    })
+  }
+  getCurrentPage(e: number): void{
+    this.pageIndex = e
+    this.commentList()
+  }
+
   async created(){
     playlistDetail(this.id).then((res: any) => {
-      console.log(res)
+      // console.log(res)
       this.msg = res.playlist;
       const ids = res.privileges.map((e: any) => e.id).join(',')
       songList(ids).then((song: any) => {
@@ -78,6 +117,7 @@ export default class PlaylistDetail extends Vue {
         this.filterList = JSON.parse(JSON.stringify(songList))
       })
     })
+    this.commentList()
   }
 
   tabOn = 0
@@ -268,6 +308,12 @@ export default class PlaylistDetail extends Vue {
             font-weight: normal;
           }
         }
+      }
+    }
+    .comments-box{
+      padding: 0 50px 30px 50px;
+      h2{
+        padding:15px 0 30px;
       }
     }
   }

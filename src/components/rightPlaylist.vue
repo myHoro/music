@@ -89,7 +89,7 @@ export default class RightPlaylist extends Vue {
   right: 0;
   top:0;
   bottom: $miniPlayerHeight;
-  z-index: 8;
+  z-index: 99;
  
   .tabs{
     display: flex;

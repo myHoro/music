@@ -1,6 +1,6 @@
 <template>
   <div class="recommend">
-    <router-link to="" class="topPlaylist" v-if="topPlaylist.id">
+    <router-link :to="{name:'playlistDetail', params:{id:topPlaylist.id}}" class="topPlaylist" v-if="topPlaylist.id">
       <div class="img"><img :src="$utils.imgSize(topPlaylist.coverImgUrl, 300)" /></div>
       <div class="msg">
         <div class="tag">精品歌单</div>
@@ -11,7 +11,7 @@
     </router-link>
     <Tab :item="tab" @value="getType" />
     <div class="playlist">
-      <router-link v-for="(e, i) in list" :key="i" to="" class="playlist-link">
+      <router-link v-for="(e, i) in list" :key="i" :to="{name:'playlistDetail', params:{id:e.id}}" class="playlist-link">
         <ListCard :msg="'播放量：'+$utils.formatNumber(e.playCount)" :title="e.name" :imgSrc="$utils.imgSize(e.coverImgUrl, 500)" />
       </router-link>
     </div>

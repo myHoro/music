@@ -21,7 +21,7 @@ export const newsong = (type: number|string) => get('/top/song', {type})
 export const newMvs = (data: {limit: number; offset: number; order?: string; area?: string; type?: string}) => get('/mv/all', data)
 
 export const commentMusic = (data: { id: number; limit?: number; offset?: number }) => get('/comment/music', data)
-export const commentPlaylist = (data: {id: number; limit?: number; offset?: number}) => get('comment/playlist', data)
+export const commentPlaylist = (data: {id: number; limit?: number; offset?: number}) => get('/comment/playlist', data)
 
 export const simiPlaylist = (id: string) => get('/simi/playlist', {id})
 export const simiMusic = (id: string) => get('/simi/song', {id})

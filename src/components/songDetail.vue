@@ -16,68 +16,34 @@
       <div class="song-other">
         <div class="comment-box">
           <h2>热门评论</h2>
-          <ul class="comment-list">
-            <li v-for="e in hotComment" :key="e.commentId" class="item">
-              <div class="head-img"><img :src="$utils.imgSize(e.user.avatarUrl, 80)" /></div>
-              <div class="content">
-                <div class="content-top">
-                  <span class="name">{{e.user.nickname}}：</span>{{e.content}}
-                  <template v-if="e.beReplied.length">
-                    <div v-for="r in e.beReplied" :key="r.beRepliedCommentId" class="reply">
-                      <span>{{r.user.nickname}}：</span>{{r.content}}
-                    </div>
-                  </template>
-                </div>
-                <div class="content-bottom">
-                  <span>{{$utils.formatDate(e.time)}}</span>
-                  <span><i class="iconfont iconzan" />{{e.likedCount}}</span>
-                </div>
-              </div>
-            </li>
-          </ul>
+          <Comments :list="hotComment" />
           <h2 style="padding-top:20px">最新评论({{total}})</h2>
-          <ul class="comment-list">
-            <li v-for="e in commentList" :key="e.commentId">
-              <div class="head-img"><img :src="$utils.imgSize(e.user.avatarUrl, 80)" /></div>
-              <div class="content">
-                <div class="content-top">
-                  <span class="name">{{e.user.nickname}}：</span>{{e.content}}
-                  <template v-if="e.beReplied.length">
-                    <div v-for="r in e.beReplied" :key="r.beRepliedCommentId" class="reply">
-                      <span>{{r.user.nickname}}：</span>{{r.content}}
-                    </div>
-                  </template>
-                </div>
-                <div class="content-bottom">
-                  <span>{{$utils.formatDate(e.time)}}</span>
-                  <span><i class="iconfont iconzan" />{{e.likedCount}}</span>
-                </div>
-              </div>
-            </li>
-          </ul>
+          <Comments :list="commentList" />
           <Pagination :total="total" @change="getCurrentPage" />
         </div>
         <div class="tj">
-          <h2>包含这首歌的歌单</h2>
-          <ul class="simi">
-            <li v-for="e in simiList" :key="e.id">
-              <div class="img"><img :src="$utils.imgSize(e.coverImgUrl, 100)" /></div>
-              <div class="simi-msg">
-                <p class="simi-name overHidden">{{e.name}}</p>
-                <p class="simi-playcout"><i class="iconfont iconbf" />{{$utils.formatNumber(e.playCount)}}</p>
-              </div>
-            </li>
-          </ul>
-          <h2>相似歌曲</h2>
-          <ul class="simi">
-            <li v-for="e in simiMusicList" :key="e.id" @click="play(e)">
-              <div class="img"><img :src="$utils.imgSize(e.picture, 100)" /></div>
-              <div class="simi-msg">
-                <p class="simi-name overHidden">{{e.name}}</p>
-                <p class="simi-playcout">{{e.artists}}</p>
-              </div>
-            </li>
-          </ul>
+          <div style="position:sticky; top:10px">
+            <h2>包含这首歌的歌单</h2>
+            <ul class="simi">
+              <li v-for="e in simiList" :key="e.id">
+                <div class="img"><img :src="$utils.imgSize(e.coverImgUrl, 100)" /></div>
+                <div class="simi-msg">
+                  <p class="simi-name overHidden">{{e.name}}</p>
+                  <p class="simi-playcout"><i class="iconfont iconbf" />{{$utils.formatNumber(e.playCount)}}</p>
+                </div>
+              </li>
+            </ul>
+            <h2>相似歌曲</h2>
+            <ul class="simi">
+              <li v-for="e in simiMusicList" :key="e.id" @click="play(e)">
+                <div class="img"><img :src="$utils.imgSize(e.picture, 100)" /></div>
+                <div class="simi-msg">
+                  <p class="simi-name overHidden">{{e.name}}</p>
+                  <p class="simi-playcout">{{e.artists}}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -88,9 +54,11 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { commentMusic, simiPlaylist, simiMusic } from '@/request/api'
 import store from '../store';
+import Comments from '@/components/comments.vue'
 import Pagination from '@/components/pagination.vue'
 @Component({
   components: {
+    Comments,
     Pagination
   }
 })
