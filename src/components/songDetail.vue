@@ -29,7 +29,7 @@
                   </template>
                 </div>
                 <div class="content-bottom">
-                  <span>{{e.time}}</span>
+                  <span>{{$utils.formatDate(e.time)}}</span>
                   <span><i class="iconfont iconzan" />{{e.likedCount}}</span>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                   </template>
                 </div>
                 <div class="content-bottom">
-                  <span>{{e.time}}</span>
+                  <span>{{$utils.formatDate(e.time)}}</span>
                   <span><i class="iconfont iconzan" />{{e.likedCount}}</span>
                 </div>
               </div>
@@ -63,8 +63,8 @@
             <li v-for="e in simiList" :key="e.id">
               <div class="img"><img :src="$utils.imgSize(e.coverImgUrl, 100)" /></div>
               <div class="simi-msg">
-                <p class="simi-name">{{e.name}}</p>
-                <p class="simi-playcout"><i class="iconfont iconbf" />{{e.playCount}}</p>
+                <p class="simi-name overHidden">{{e.name}}</p>
+                <p class="simi-playcout"><i class="iconfont iconbf" />{{$utils.formatNumber(e.playCount)}}</p>
               </div>
             </li>
           </ul>
@@ -73,7 +73,7 @@
             <li v-for="e in simiMusicList" :key="e.id" @click="play(e)">
               <div class="img"><img :src="$utils.imgSize(e.picture, 100)" /></div>
               <div class="simi-msg">
-                <p class="simi-name">{{e.name}}</p>
+                <p class="simi-name overHidden">{{e.name}}</p>
                 <p class="simi-playcout">{{e.artists}}</p>
               </div>
             </li>

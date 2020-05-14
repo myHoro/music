@@ -21,8 +21,11 @@ export const newsong = (type: number|string) => get('/top/song', {type})
 export const newMvs = (data: {limit: number; offset: number; order?: string; area?: string; type?: string}) => get('/mv/all', data)
 
 export const commentMusic = (data: { id: number; limit?: number; offset?: number }) => get('/comment/music', data)
+export const commentPlaylist = (data: {id: number; limit?: number; offset?: number}) => get('comment/playlist', data)
+
 export const simiPlaylist = (id: string) => get('/simi/playlist', {id})
 export const simiMusic = (id: string) => get('/simi/song', {id})
 
+export const songList = (ids: string) => get('/song/detail', {ids})
 
 // 接口路径前面加上 '/'更安全... 不加斜杠，接口地址有时候会和访问路由冲突（当路由和接口地址相同时，比如：路由和接口地址都为search的时候？），访问的接口地址会多出一节路由地址
