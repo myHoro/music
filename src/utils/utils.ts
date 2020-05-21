@@ -1,6 +1,16 @@
 import store from '@/store';
-
-export const imgSize = (url: string, w: number, h?: number): string => {
+import {
+  ImgSize,
+  FormatDate,
+  TimeInterval,
+  PageOffset,
+  PageTotal,
+  FormatNumber,
+} from '@/interface/interface'
+// interface imgSize {
+//   (url: string, w: number, h?: number): string
+// }
+export const imgSize: ImgSize = (url, w, h) => {
   h = h || w;
   url += `?param=${w}y${h}`
   return url
@@ -9,7 +19,7 @@ export const imgSize = (url: string, w: number, h?: number): string => {
 interface DateFormat {
   [index: string]: number;
 }
-export const formatDate = (date: number | Date, fmt = 'yyyy-MM-dd hh:mm:ss'): string => {
+export const formatDate: FormatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
   date = date instanceof Date ? date : new Date(date)
   if(/(y+)/.test(fmt)){ //正则判断是否含有y，（y+, 判断多个y。此处判断的是yyyy）传入几个y，时间就返回多少位。
     fmt = fmt.replace(RegExp.$1, (date.getFullYear()+'').substr(4 - RegExp.$1.length))
@@ -43,7 +53,7 @@ export const formatDate = (date: number | Date, fmt = 'yyyy-MM-dd hh:mm:ss'): st
   return fmt
 }
 
-export const timeInterval = (e: number): string => {
+export const timeInterval: TimeInterval = e => {
   if(!e) return '';
   const h = Math.floor(e/(1000*60*60));
   const min = Math.floor(e%(1000 * 60 * 60) / (1000 * 60));
@@ -60,15 +70,15 @@ export const timeInterval = (e: number): string => {
   return timeStr;
 }
 
-export const pageOffset = (page: number, limit: number): number => {
+export const pageOffset: PageOffset = (page, limit) => {
   return (page - 1) * limit
 }
 
-export const pageTotal = (limit: number, total: number): number => {
+export const pageTotal: PageTotal = (limit, total) => {
   return Math.ceil(total/limit)
 }
 
-export const formatNumber = (num: number): number | string => {
+export const formatNumber: FormatNumber = num => {
   num = Number(num) || 0;
   return num>100000 ? Math.round(num/10000)+'万':num
 }
@@ -87,7 +97,7 @@ export const createSongMsg = (e: any): any => {
   return song
 }
 
-export const startMusic = (song: any) => {
+export const startMusic = (song: any): void => {
   store.commit('SET_PLAYINGMUSIC', song)
   store.commit('SET_ISPLAYING', true)
   const playHistory: any = store.state.playlistHistory

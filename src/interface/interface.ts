@@ -1,27 +1,23 @@
-export interface imgSizes {
+export interface ImgSize {
   (url: string, w: number, h?: number): string
 }
 
-export interface formatDate { 
+export interface FormatDate { 
   (date: number | Date, fmt: string): string 
 }
 
-export interface timeInterval{
+export interface TimeInterval{
   (e: number): string
 }
 
-export interface pageOffset {
+export interface PageOffset {
   (page: number, limit: number): number
 }
 
-export interface pageTotal {
+export interface PageTotal {
   (limit: number, total: number): number 
 }
 
-export interface formatNumber { 
+export interface FormatNumber { 
   (num: number): number | string
-}
-
-export interface anys {
-  (e: any): any
 }
