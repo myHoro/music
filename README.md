@@ -3,13 +3,11 @@
 ### 项目开始时间 2020-04-21
 
 ## 接口地址：
-```
-  (https://binaryify.github.io/NeteaseCloudMusicApi)
-```
+  https://binaryify.github.io/NeteaseCloudMusicApi
+
 ## 参考的前端页面：
-```
-  (https://music.sl1673495.now.sh/)
-```
+  https://music.sl1673495.now.sh/
+
 ## Project setup
 ```
 npm install
